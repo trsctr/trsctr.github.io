@@ -24,6 +24,4 @@ const ContentBox: React.FC<ContentBoxProps> = ({ background = "bg-background", c
   );
 };
 
-
-
 export default ContentBox;

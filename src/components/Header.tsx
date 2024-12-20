@@ -44,6 +44,3 @@ const Header: React.FC<HeaderProps> = ({
 }
 
 export default Header;
-
-// <h1 className={`${textSize} ${gradientSettings} ${color} font-bold leading-tight ${className}`}>
-// {text}
