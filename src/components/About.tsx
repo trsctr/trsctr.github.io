@@ -23,15 +23,13 @@ const About: React.FC<AboutProps> = ( {title, imageUrl, children, imageOnRight =
     return (
     <div className="absolute flex left-0 top-0 md:top-1/4 md:left-32  w-full md:w-9/12 max-w-[900px]">
     <ContentBox className="rounded-lg shadow-lg">
-            {title && <Header text={title} gradientColors="from-primary to-secondary" hasGradient/>}
+            {title && <Header text={title} hasGradient/>}
             <TextImageBox imageUrl={imageUrl} imageOnRight={imageOnRight}>
                 {children}
             </TextImageBox>
         <Footer/>
     </ContentBox>
-
     </div>
-    
     );
   };
 

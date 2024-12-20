@@ -2,14 +2,13 @@ import React from 'react';
 import About from './components/About';
 import Header from './components/Header';
 
-
 const App: React.FC = () => {
   return (
 
-     <div className="bg-black min-h-screen mt-0 flex items-center justify-center w-full h-full">
+    <div className="bg-black min-h-screen mt-0 flex items-center justify-center w-full h-full">
 
        <div className="absolute top-0 left-0 p-5 hidden md:block">
-        <Header text="trsctr.github.io" textSize="text-2xl" className="tracking-widest font-mono" hasGradient gradientColors="from-primary to-secondary"/>
+        <Header text="trsctr.github.io" textSize="text-2xl" className="tracking-widest font-mono" hasGradient/>
        </div>
        <About title="Hello, my name is Otto" imageUrl="src/assets/meika.jpg" imageOnRight>
        <p className="mb-2">
@@ -23,8 +22,9 @@ const App: React.FC = () => {
        <p className="mt-2">I'm beginning to like Tailwind. It's useful and makes CSS less nervewracking than it could be.</p>
       
        <p className="mt-2">Which is nice.</p>
-       </About>
-     </div>
+       </About> 
+  </div>
+
   );
 };
 

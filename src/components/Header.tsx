@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 
 interface HeaderProps {
     text: string;
@@ -19,16 +20,30 @@ interface HeaderProps {
     * @param hasGradient Whether to apply a gradient to the text.
     * @param textSize The size of the text.
 */
-const Header: React.FC<HeaderProps> = ({ text, color = "text-text", gradientColors, className, hasGradient = false, textSize = "text-4xl lg:text-6xl" }) => {
-    // tsekkaa clsx
-    let gradientSettings = ""
-    if (hasGradient && gradientColors)
-        gradientSettings = "text-transparent bg-clip-text bg-gradient-to-r " + gradientColors;
-    return (
-        <h1 className={`${textSize} ${gradientSettings} ${color} font-bold leading-tight ${className}`}>
+const Header: React.FC<HeaderProps> = ({ 
+    text, color = "text-text",
+    gradientColors = "from-primary to-secondary",
+    className,
+    hasGradient = false,
+    textSize = "text-4xl lg:text-6xl"}) => {
+
+        return (
+        <h1 className={clsx(
+            'font-bold leading-tight',
+            className,
+            textSize,
+            {
+                'text-transparent bg-clip-text bg-gradient-to-r': hasGradient,
+                [gradientColors || '']: hasGradient,
+                [color]: !hasGradient
+            }
+        )}>
             {text}
         </h1>
     );
 }
 
 export default Header;
+
+// <h1 className={`${textSize} ${gradientSettings} ${color} font-bold leading-tight ${className}`}>
+// {text}
