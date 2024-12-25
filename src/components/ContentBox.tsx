@@ -15,7 +15,7 @@ interface ContentBoxProps {
 */
 const ContentBox: React.FC<ContentBoxProps> = ({ background = "bg-background", className, children }) => {
   return (
-    <section className={`${background} relative p-4 flex justify-center ${className}`}>
+    <section className={`${background} opacity-90 relative p-4 flex justify-center ${className}`}>
       {/* Content Box */}
       <div className="w-full flex-col">
         {children}
