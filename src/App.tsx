@@ -10,7 +10,7 @@ const App: React.FC = () => {
        <div className="absolute top-0 left-0 p-5 hidden md:block">
         <Header text="trsctr.github.io" textSize="text-2xl" className="tracking-widest font-mono" hasGradient/>
        </div>
-       <About title="Hello, my name is Otto" imageUrl="src/assets/meika.jpg" imageOnRight>
+       <About title="Hello, my name is Otto" imageUrl="/assets/photo.jpg" imageOnRight>
        <p className="mb-2">
          This is my webpage.
        </p>
