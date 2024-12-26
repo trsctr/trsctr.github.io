@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { useMemo, useRef } from 'react';
 
 const BackgroundShader = () => {
-    const materialRef = useRef<THREE.ShaderMaterial>();
+    const materialRef = useRef<THREE.ShaderMaterial | null>(null);
     const random = Math.random();
     console.log(random)
     const uniforms = useMemo(() => ({

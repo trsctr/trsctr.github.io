@@ -62,7 +62,7 @@ const MorphingMesh: React.FC = () => {
     morphProgressRef.current = 0;
   };
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (solidMeshRef.current && wireframeMeshRef.current) {
       if (morphTargetRef.current) {
         const positionAttr = solidMeshRef.current.geometry.attributes.position;
