@@ -33,3 +33,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: './dist'  # Path to the built files
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub's provided token for authentication
+          destination_branch: 'gh-pages'  # Deploy to the gh-pages branch
