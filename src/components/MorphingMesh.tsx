@@ -1,6 +1,6 @@
-import React, { useRef, useState, useMemo } from "react";
-import { Mesh, BufferGeometry, Float32BufferAttribute, Color } from "three";
-import { useFrame } from "@react-three/fiber"; // This will allow us to animate
+import React, { useRef, useMemo } from "react";
+import { BufferGeometry, Float32BufferAttribute, Color } from "three";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 // Helper function to generate random vertices
@@ -16,28 +16,31 @@ const generateVertices = (points: number = 55, size: number = 4): number[] => {
 };
 
 // Helper function to generate colors based on vertices
-const generateColors = (vertices: number[], colormod: number = 2): number[] => {
+const generateColors = (vertices: number[], colormod: number = 1): number[] => {
   const colors: number[] = [];
-  console.log(colormod)
   for (let i = 0; i < vertices.length; i += 3) {
     const x = vertices[i];
     const y = vertices[i + 1];
     const z = vertices[i + 2];
     const distance = Math.sqrt(x * x + y * y + z * z);
     const color = new Color();
-    color.setHSL((distance / 10) * colormod, 1, 0.5);
+    const hue = distance * colormod % 1;
+    color.setHSL(hue, 1, 0.5);
     colors.push(color.r, color.g, color.b);
   }
   return colors;
 };
 
 const MorphingMesh: React.FC = () => {
-  const meshRef = useRef<Mesh>(null);
-  const [morphTarget, setMorphTarget] = useState<number[] | null>(null);
-  const [morphProgress, setMorphProgress] = useState(0);
-  const [targetColors, setTargetColors] = useState<number[]>([]);
+  const solidMeshRef = useRef<THREE.Mesh>(null);
+  const wireframeMeshRef = useRef<THREE.Mesh>(null);
 
-  // Memoizing the initial vertices and colors so they are not recalculated on each render
+  // Use refs instead of state for tracking morphing progress and targets
+  const morphProgressRef = useRef(0);
+  const morphTargetRef = useRef<number[] | null>(null);
+  const targetColorsRef = useRef<number[]>([]);
+
+  // Memoizing the initial vertices and colors
   const initialVertices = useMemo(() => generateVertices(), []);
   const initialColors = useMemo(() => generateColors(initialVertices), [initialVertices]);
 
@@ -49,33 +52,34 @@ const MorphingMesh: React.FC = () => {
     return geo;
   }, [initialVertices, initialColors]);
 
-  const handleClick = () => {
-      console.log("Morphing mesh...");
-      const newVertices = generateVertices(); // Create new target vertices
-      const newColors = generateColors(newVertices, Math.random()*50); // Generate colors for new vertices
-      setMorphTarget(newVertices); // Set new morph target
-      setTargetColors(newColors);
-      setMorphProgress(0); // Reset progress
+  const handleClick = (event: any) => {
+    const { point } = event;
+    const colormod = Math.abs(point.x + point.y - point.z) * Math.random();
+    const newVertices = generateVertices();
+    const newColors = generateColors(newVertices, colormod);
+    morphTargetRef.current = newVertices;
+    targetColorsRef.current = newColors;
+    morphProgressRef.current = 0;
   };
 
   useFrame((state, delta) => {
-    if (meshRef.current) {
-      if (morphTarget) {
-        const positionAttr = meshRef.current.geometry.attributes.position;
-        const colorAttr = meshRef.current.geometry.attributes.color;
+    if (solidMeshRef.current && wireframeMeshRef.current) {
+      if (morphTargetRef.current) {
+        const positionAttr = solidMeshRef.current.geometry.attributes.position;
+        const colorAttr = solidMeshRef.current.geometry.attributes.color;
 
-        if (positionAttr && colorAttr && morphProgress < 1) {
+        if (positionAttr && colorAttr && morphProgressRef.current < 1) {
           // Smoothly interpolate vertices from current position to target
           for (let i = 0; i < positionAttr.count * 3; i++) {
             const current = positionAttr.array[i];
-            const target = morphTarget[i];
-            positionAttr.array[i] = THREE.MathUtils.lerp(current, target,  2 * delta); // Linear interpolation, scaled by delta time
+            const target = morphTargetRef.current[i];
+            positionAttr.array[i] = THREE.MathUtils.lerp(current, target, 2 * delta); // Linear interpolation, scaled by delta time
           }
 
           // Smoothly interpolate colors from current colors to new target colors
           for (let i = 0; i < colorAttr.count * 3; i++) {
             const currentColor = colorAttr.array[i];
-            const targetColor = targetColors[i];
+            const targetColor = targetColorsRef.current[i];
             colorAttr.array[i] = THREE.MathUtils.lerp(currentColor, targetColor, 2 * delta); // Linear interpolation, scaled by delta time
           }
 
@@ -83,37 +87,40 @@ const MorphingMesh: React.FC = () => {
           colorAttr.needsUpdate = true; // Indicate that geometry needs updating for both position and color
 
           // Update progress and stop morphing once complete
-          setMorphProgress((prev) => {
-            const newProgress = prev + .5 * delta; // Multiply by delta to smooth across frame rate
-            if (newProgress >= 1) {
-              console.log("Morphing complete!");
-              setMorphProgress(1);
-              setMorphTarget(null); // Stop morphing when complete
-              setTargetColors([]); // Clear target colors
-            }
-            return newProgress;
-          });
+          morphProgressRef.current += 0.5 * delta; // Multiply by delta to smooth across frame rate
+          if (morphProgressRef.current >= 1) {
+            console.log("Morphing complete!");
+            morphProgressRef.current = 1;
+            morphTargetRef.current = null; // Stop morphing when complete
+            targetColorsRef.current = []; // Clear target colors
+          }
         }
       }
 
       // Optionally recompute normals after modifying vertices
-      meshRef.current.geometry.computeVertexNormals();
+      solidMeshRef.current.geometry.computeVertexNormals();
+      wireframeMeshRef.current.geometry = solidMeshRef.current.geometry; // Sync the geometries
 
       // Rotate the mesh for effect
-      meshRef.current.rotation.y += 0.05 * delta;
-      meshRef.current.rotation.x += 0.05 * delta;
+      solidMeshRef.current.rotation.y += 0.05 * delta;
+      solidMeshRef.current.rotation.x += 0.05 * delta;
+      wireframeMeshRef.current.rotation.y += 0.05 * delta;
+      wireframeMeshRef.current.rotation.x += 0.05 * delta;
     }
   });
 
   return (
-    <mesh ref={meshRef} geometry={geometry} onClick={handleClick}>
-      <meshBasicMaterial
-        vertexColors
-        transparent
-        opacity={0.5}
-        side={THREE.DoubleSide}
-      />
-    </mesh>
+    <>
+      {/* Solid Mesh */}
+      <mesh ref={solidMeshRef} geometry={geometry} onClick={handleClick}>
+        <meshBasicMaterial vertexColors transparent opacity={0.3} side={THREE.DoubleSide} />
+      </mesh>
+
+      {/* Wireframe Mesh */}
+      <mesh ref={wireframeMeshRef} geometry={geometry}>
+      <meshBasicMaterial vertexColors depthWrite={false} opacity={.2} transparent side={THREE.DoubleSide} wireframe />
+      </mesh>
+    </>
   );
 };
 

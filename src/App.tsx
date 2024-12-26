@@ -2,11 +2,25 @@ import React from 'react';
 import About from './components/About';
 import Header from './components/Header';
 import Scene from './components/Scene';
+import BackgroundShader from './components/BackgroundShader';
+import { Canvas } from '@react-three/fiber';
+import {PerformanceMonitor } from '@react-three/drei';
 
 const App: React.FC = () => {
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-gradient-to-b from-background-top to-black">
       {/* Main container with flex layout */}
+      <div className=" top-0 left-0 w-full h-full fixed">
+        <Canvas className="w-full h-full opacity-30">
+        <PerformanceMonitor
+          onDecline={() => console.log('Background shader canvas performance dropped')}
+          onIncline={() => console.log('Background shader canvas performance improved')}
+        >
+          <BackgroundShader />
+          </PerformanceMonitor>
+        </Canvas>
+      </div>
+
       <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center w-full">
 
         {/* Header section (visible on medium screens and up) */}
@@ -22,14 +36,14 @@ const App: React.FC = () => {
                 <p className="mb-2">This is my webpage.</p>
                 <p>There are many like it, but this one is mine.</p>
                 <p className="mt-2">Something something something about something and I like cats and good music.</p>
-                <p className="mt-2">I'm beginning to like Tailwind. It's useful and makes CSS less nervewracking than it could be.</p>
-                <p className="mt-2">Which is nice.</p>
+                <p className="mt-2">Lorem ipsum dolor shit Valmet. Shiggity shiggity schwa. Hello world. Bla bla bla. Is this shader heavy.</p>
+                <p className="mt-2">Lässyn lässyn lää läpäti lää</p>
               </About>
             </div>
 
             {/* Canvas section */}
             <div className="flex-1 p-5 flex justify-center -mt-20 lg:mt-0 z-0">
-              <div className="relative min-w-[200px] w-full max-w-[800px] h-auto aspect-[1/1] border-2 border-red-500">
+              <div className="relative min-w-[200px] w-full max-w-[800px] h-auto aspect-[1/1]">
                 <Scene />
               </div>
             </div>
