@@ -8,15 +8,15 @@ const float UV_OFFSET = 0.001;
 const float IT_STEP = 0.1;
 
 
-// Function to generate a color palette based on sinusoidal variation over time
-vec3 generateColorPalette(float time) {
+// Function to generate a color palette based on sinusoidal variation of RGB channels based on input value
+vec3 generateColorPalette(float value) {
     vec3 baseColor = vec3(0.0, 0.0, 0.0);  // Base color for the palette
-    vec3 amplitude = vec3(0.0, 0.1, 0.1);   // Amplitude of oscillation for each color channel
-    vec3 frequency = vec3(uRandom, 0.1, 0.1);  // Frequency of oscillation for each color channel
-    vec3 phaseShift = vec3(4.0, 0.1, 0.1);   // Phase shift to offset each channel's oscillation
+    vec3 amplitude = vec3(0.0, 0.1, 0.1);   // Amplitude/range of oscillation for each color channel
+    vec3 frequency = vec3(0.0, 0.1, 0.1);  // Frequency of oscillation for each color channel
+    vec3 phaseShift = vec3(0.0, uRandom, uRandom);   // Phase shift to offset each channel's oscillation
 
     // Return the color based on oscillation
-    return baseColor + amplitude * cos(TWO_PI * (frequency * time + phaseShift));
+    return baseColor + amplitude * cos(TWO_PI * (frequency * value + phaseShift));
 }
 
 void main() {
@@ -51,7 +51,7 @@ void main() {
         // Modify UV based on the sine of the distance metric to introduce more distortion
         uv -= sin(i * distMetric);
         
-        // Generate color from the current UV coordinates and time, and adjust the intensity based on the distance metric
+        // Generate color from the current UV coordinates and time, and adjust the intensity based on the distance metric and random uniform
         vec3 col = generateColorPalette(length(uv * referenceUv - distMetric) - uTime + uRandom);
         
         // Smooth the distance metric to create softer transitions
