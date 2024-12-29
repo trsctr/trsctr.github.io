@@ -31,6 +31,23 @@ const generateColors = (vertices: number[], colormod: number = 1): number[] => {
   return colors;
 };
 
+// Helper function to interpolate mesh attributes
+const interpolateAttributes = (attr: THREE.BufferAttribute | THREE.InterleavedBufferAttribute, target: number[], delta: number) => {
+  for (let i = 0; i < attr.count * 3; i++) {
+    attr.array[i] = THREE.MathUtils.lerp(attr.array[i] as number, target[i], 2 * delta);
+  }
+  attr.needsUpdate = true;
+};
+
+// Helper function to rotate a mesh
+const rotateMesh = (mesh: THREE.Mesh | null, delta: number) => {
+  if (mesh) {
+    mesh.rotation.y += 0.05 * delta;
+    mesh.rotation.x += 0.05 * delta;
+  }
+};
+
+// MorphingMesh component
 const MorphingMesh: React.FC = () => {
   const solidMeshRef = useRef<THREE.Mesh>(null);
   const wireframeMeshRef = useRef<THREE.Mesh>(null);
@@ -52,6 +69,9 @@ const MorphingMesh: React.FC = () => {
     return geo;
   }, [initialVertices, initialColors]);
 
+  // handleClick generates new random geometry and colors
+  // and sets the morph target to the new geometry
+  // click position is use as modifier for color generation
   const handleClick = (event: any) => {
     const { point } = event;
     const colormod = Math.abs(point.x + point.y - point.z) * Math.random();
@@ -64,48 +84,27 @@ const MorphingMesh: React.FC = () => {
 
   useFrame((_, delta) => {
     if (solidMeshRef.current && wireframeMeshRef.current) {
+      
       if (morphTargetRef.current) {
         const positionAttr = solidMeshRef.current.geometry.attributes.position;
         const colorAttr = solidMeshRef.current.geometry.attributes.color;
 
-        if (positionAttr && colorAttr && morphProgressRef.current < 1) {
-          // Smoothly interpolate vertices from current position to target
-          for (let i = 0; i < positionAttr.count * 3; i++) {
-            const current = positionAttr.array[i];
-            const target = morphTargetRef.current[i];
-            positionAttr.array[i] = THREE.MathUtils.lerp(current, target, 2 * delta); // Linear interpolation, scaled by delta time
-          }
+        interpolateAttributes(positionAttr, morphTargetRef.current, delta);
+        interpolateAttributes(colorAttr, targetColorsRef.current, delta);
 
-          // Smoothly interpolate colors from current colors to new target colors
-          for (let i = 0; i < colorAttr.count * 3; i++) {
-            const currentColor = colorAttr.array[i];
-            const targetColor = targetColorsRef.current[i];
-            colorAttr.array[i] = THREE.MathUtils.lerp(currentColor, targetColor, 2 * delta); // Linear interpolation, scaled by delta time
-          }
-
-          positionAttr.needsUpdate = true; // Indicate that geometry needs updating
-          colorAttr.needsUpdate = true; // Indicate that geometry needs updating for both position and color
-
-          // Update progress and stop morphing once complete
-          morphProgressRef.current += 0.5 * delta; // Multiply by delta to smooth across frame rate
-          if (morphProgressRef.current >= 1) {
-            console.log("Morphing complete!");
-            morphProgressRef.current = 1;
-            morphTargetRef.current = null; // Stop morphing when complete
-            targetColorsRef.current = []; // Clear target colors
-          }
+        morphProgressRef.current += delta;
+        if (morphProgressRef.current >= 1) {
+          morphProgressRef.current = 1;
+          morphTargetRef.current = null;
+          targetColorsRef.current = [];
         }
+
+        solidMeshRef.current.geometry.computeVertexNormals();
+        wireframeMeshRef.current!.geometry = solidMeshRef.current.geometry;
       }
 
-      // Optionally recompute normals after modifying vertices
-      solidMeshRef.current.geometry.computeVertexNormals();
-      wireframeMeshRef.current.geometry = solidMeshRef.current.geometry; // Sync the geometries
-
-      // Rotate the mesh for effect
-      solidMeshRef.current.rotation.y += 0.05 * delta;
-      solidMeshRef.current.rotation.x += 0.05 * delta;
-      wireframeMeshRef.current.rotation.y += 0.05 * delta;
-      wireframeMeshRef.current.rotation.x += 0.05 * delta;
+      rotateMesh(solidMeshRef.current, delta);
+      rotateMesh(wireframeMeshRef.current, delta);
     }
   });
 
