@@ -1,7 +1,7 @@
 import React from 'react';
 import About from './components/About';
 import Header from './components/Header';
-
+import Modal from './components/Modal';
 const App: React.FC = () => {
   return (
 
@@ -23,6 +23,7 @@ const App: React.FC = () => {
       
        <p className="mt-2">Which is nice.</p>
        </About> 
+       <Modal/>
   </div>
 
   );
