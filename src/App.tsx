@@ -28,6 +28,7 @@ const App: React.FC = () => {
           <Header text="trsctr.github.io" textSize="text-2xl" className="tracking-widest font-mono z-20" hasGradient />
         </div> 
 
+
           <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between w-full h-full relative">
             
             {/* Textbox section */}
