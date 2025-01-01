@@ -33,3 +33,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: './dist'  # Path to the built files
+          github_token: ${{ secrets.GH_IO_PAT }}  # Use your stored PAT for authentication
