@@ -1,16 +1,16 @@
 import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import { ShaderMaterial, Vector2 }  from 'three';
 import { useMemo, useRef } from 'react';
 import vertexShader from '@/shaders/BackgroundVertex.glsl';
 import fragmentShader from '@/shaders/BackgroundFragment.glsl';
 
 const BackgroundShader = () => {
-    const materialRef = useRef<THREE.ShaderMaterial | null>(null);
+    const materialRef = useRef<ShaderMaterial | null>(null);
     const random = Math.random();
     
     const uniforms = useMemo(() => ({
       uTime: { value: 0 },
-      uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+      uResolution: { value: new Vector2(window.innerWidth, window.innerHeight) },
       uRandom : { value: random }
     }), [random]);
   

@@ -1,7 +1,6 @@
 import React, { useRef, useMemo } from "react";
-import { BufferGeometry, Float32BufferAttribute, Color } from "three";
+import { BufferGeometry, Float32BufferAttribute, Color, BufferAttribute, InterleavedBufferAttribute, MathUtils,  Mesh, DoubleSide } from "three";
 import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
 
 // Helper function to generate random vertices
 const generateVertices = (points: number = 55, size: number = 4): number[] => {
@@ -32,15 +31,15 @@ const generateColors = (vertices: number[], colormod: number = 1): number[] => {
 };
 
 // Helper function to interpolate mesh attributes
-const interpolateAttributes = (attr: THREE.BufferAttribute | THREE.InterleavedBufferAttribute, target: number[], delta: number) => {
+const interpolateAttributes = (attr: BufferAttribute | InterleavedBufferAttribute, target: number[], delta: number) => {
   for (let i = 0; i < attr.count * 3; i++) {
-    attr.array[i] = THREE.MathUtils.lerp(attr.array[i] as number, target[i], 2 * delta);
+    attr.array[i] = MathUtils.lerp(attr.array[i] as number, target[i], 2 * delta);
   }
   attr.needsUpdate = true;
 };
 
 // Helper function to rotate a mesh
-const rotateMesh = (mesh: THREE.Mesh | null, delta: number) => {
+const rotateMesh = (mesh: Mesh | null, delta: number) => {
   if (mesh) {
     mesh.rotation.y += 0.05 * delta;
     mesh.rotation.x += 0.05 * delta;
@@ -49,8 +48,8 @@ const rotateMesh = (mesh: THREE.Mesh | null, delta: number) => {
 
 // MorphingMesh component
 const MorphingMesh: React.FC = () => {
-  const solidMeshRef = useRef<THREE.Mesh>(null);
-  const wireframeMeshRef = useRef<THREE.Mesh>(null);
+  const solidMeshRef = useRef<Mesh>(null);
+  const wireframeMeshRef = useRef<Mesh>(null);
 
   // Use refs instead of state for tracking morphing progress and targets
   const morphProgressRef = useRef(0);
@@ -112,12 +111,12 @@ const MorphingMesh: React.FC = () => {
     <>
       {/* Solid Mesh */}
       <mesh ref={solidMeshRef} geometry={geometry} onClick={handleClick}>
-        <meshBasicMaterial vertexColors transparent opacity={0.3} side={THREE.DoubleSide} />
+        <meshBasicMaterial vertexColors transparent opacity={0.3} side={DoubleSide} />
       </mesh>
 
       {/* Wireframe Mesh */}
       <mesh ref={wireframeMeshRef} geometry={geometry}>
-      <meshBasicMaterial vertexColors depthWrite={false} opacity={.2} transparent side={THREE.DoubleSide} wireframe />
+      <meshBasicMaterial vertexColors depthWrite={false} opacity={.2} transparent side={DoubleSide} wireframe />
       </mesh>
     </>
   );

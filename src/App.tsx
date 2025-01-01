@@ -4,7 +4,6 @@ import Header from './components/Header';
 import Scene from './components/Scene';
 import BackgroundShader from './components/BackgroundShader';
 import { Canvas } from '@react-three/fiber';
-import {PerformanceMonitor } from '@react-three/drei';
 
 const App: React.FC = () => {
   return (
@@ -12,12 +11,7 @@ const App: React.FC = () => {
       {/* Main container with flex layout */}
       <div className=" top-0 left-0 w-full h-full fixed">
         <Canvas className="w-full h-full opacity-30">
-        <PerformanceMonitor
-          onDecline={() => console.log('Background shader canvas performance dropped')}
-          onIncline={() => console.log('Background shader canvas performance improved')}
-        >
           <BackgroundShader />
-          </PerformanceMonitor>
         </Canvas>
       </div>
 
@@ -33,7 +27,7 @@ const App: React.FC = () => {
             
             {/* Textbox section */}
             <div className="flex-1 p-5 z-30">
-              <About title="Hello, my name is Otto" imageUrl="src/assets/meika.jpg" imageOnRight>
+              <About title="Hello, my name is Otto" imageUrl="/assets/photo.jpg" imageOnRight>
                 <p className="mb-2">This is my webpage.</p>
                 <p>There are many like it, but this one is mine.</p>
                 <p className="mt-2">Something something something about something and I like cats and good music.</p>
