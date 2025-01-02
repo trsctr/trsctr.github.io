@@ -1,10 +1,12 @@
 import React from 'react';
-
+import useModal from './modal/useModal';
 /*
     * A component that displays the footer of the page.
 */
 
 const Footer: React.FC = () => {
+    const { toggleModal } = useModal();
+
     return (
     <footer className="bg-transparent">
     <div className="mx-auto w-full pt-2 md:pt-5 md:flex md:items-center md:justify-between">
@@ -20,7 +22,7 @@ const Footer: React.FC = () => {
             <a href="#" className="hover:underline hover:text-accent me-4 md:me-12">LinkedIn</a>
         </li>
         <li>
-            <a href="#" className="hover:underline hover:text-accent">Contact</a>
+            <a href="#" onClick={toggleModal} className="hover:underline hover:text-accent">Contact</a>
         </li>
     </ul>
     </div>

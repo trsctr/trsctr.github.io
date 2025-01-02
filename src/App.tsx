@@ -4,11 +4,35 @@ import Header from './components/Header';
 import Scene from './components/Scene';
 import BackgroundShader from './components/BackgroundShader';
 import { Canvas } from '@react-three/fiber';
-import Modal from './components/Modal';
+import Modal from './components/modal/Modal';
+import useModal from './components/modal/useModal';
 const App: React.FC = () => {
+  const { toggleModal } = useModal();
   return (
     <div className="w-full h-full bg-gradient-to-b from-background-top to-black">
       {/* Main container with flex layout */}
+      <Modal title="Get in touch" 
+              footer={
+                <>
+                <button
+                type="button"
+                className="text-black bg-secondary border border-accent hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                onClick={toggleModal} // Close modal on button click
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                className="py-2.5 px-5 ms-3 text-sm text-center border border-gray-600 bg-transparent font-medium text-text focus:outline-none rounded-lg focus:z-10 focus:ring-4 focus:ring-gray-700 hover:bg-gray-900"
+                onClick={toggleModal} // Close modal on button click
+              >
+                No
+              </button>
+              </>
+              }>
+                <p>This would contain the content</p>
+              </Modal>
+      
       <div className=" top-0 left-0 w-full h-full fixed">
         <Canvas className="w-full h-full opacity-30">
           <BackgroundShader />
@@ -34,9 +58,10 @@ const App: React.FC = () => {
                 <p className="mt-2">Lorem ipsum dolor shit Valmet. Shiggity shiggity schwa. Hello world. Bla bla bla. Is this shader heavy.</p>
                 <p className="mt-2">Lässyn lässyn lää läpäti lää</p>
               </About>
+
             </div>
 
-            {/* Canvas section */}
+            {/* 3D Mesh section */}
             <div className="flex-1 p-5 flex justify-center -mt-20 lg:mt-0 z-0">
               <div className="relative min-w-[200px] w-full max-w-[800px] h-auto aspect-[1/1]">
                 <Scene />
