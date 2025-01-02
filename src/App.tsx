@@ -3,7 +3,7 @@ import About from './components/About';
 import Header from './components/Header';
 import MeshCanvas from './components/MeshCanvas';
 import BackgroundCanvas from './components/BackgroundCanvas';
-import Modal from './components/modal/Modal';
+import ContactFormModal from './components/modal/ContactFormModal';
 import useModal from './components/modal/useModal';
 
 const App: React.FC = () => {
@@ -34,27 +34,7 @@ const App: React.FC = () => {
                 <p className="mt-2">Lorem ipsum dolor shit Valmet. Shiggity shiggity schwa. Hello world. Bla bla bla. Is this shader heavy.</p>
                 <p className="mt-2">Lässyn lässyn lää läpäti lää</p>
               </About>
-              <Modal title="Get in touch" 
-              footer={
-                <>
-                <button
-                type="button"
-                className="text-black bg-secondary border border-accent hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                onClick={toggleModal} // Close modal on button click
-              >
-                Yes
-              </button>
-              <button
-                type="button"
-                className="py-2.5 px-5 ms-3 text-sm text-center border border-gray-600 bg-transparent font-medium text-text focus:outline-none rounded-lg focus:z-10 focus:ring-4 focus:ring-gray-700 hover:bg-gray-900"
-                onClick={toggleModal} // Close modal on button click
-              >
-                No
-              </button>
-              </>
-              }>
-                <p>This would contain the content</p>
-              </Modal>
+              <ContactFormModal/>
             </div>
 
             {/* 3D Mesh section */}

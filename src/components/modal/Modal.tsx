@@ -6,12 +6,11 @@ import { CloseButton } from './ModalButtons'
 interface ModalProps {
   title: string; // Title of the modal
   children: ReactNode; // To allow passing custom content inside the modal
-  footer: ReactNode; // To allow passing custom footer content
 }
 
 // Modal component
 // Renders a modal with a title, content, and footer
-const Modal: React.FC<ModalProps> = ({ title, children, footer }) => {
+const Modal: React.FC<ModalProps> = ({ title, children }) => {
   const { isOpen, toggleModal } = useModal(); // Get the modal state and toggler from context
 
   if (!isOpen) return null; // Do not render the modal if it's not open
@@ -19,22 +18,21 @@ const Modal: React.FC<ModalProps> = ({ title, children, footer }) => {
   return (
     <div
       aria-hidden={!isOpen}
-      className="overflow-y-auto backdrop-blur-lg fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-50"
+      className="overflow-y-auto backdrop-blur-lg fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full max-h-full bg-black bg-opacity-50"
     > 
       <div
-        className="relative p-0 w-full max-w-2xl max-h-full rounded-lg shadow bg-background"
+        className="relative p-4 w-5/6 md:w-1/2 lg:w-1/3 max-w-lg sm:max-w-full max-h-full rounded-lg shadow bg-background"
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-3 md:p-3">
+        <div className="flex items-center justify-between pt-3 md:p-3">
           <Header text={title} textSize="text-2xl" hasGradient />
           <CloseButton onClick={toggleModal} />
         </div>
 
         {/* Modal Content */}
-        <div className="p-3 md:p-3 space-y-4 text-text">{children}</div>
+        <div className="px-3 md:px-3 pb-3 md:pb-3 space-y-4 text-text">{children}</div>
 
-        {/* Modal Footer */}
-        {footer && <div className="p-3 md:p-3">{footer}</div>}
+
       </div>
     </div>
   );
