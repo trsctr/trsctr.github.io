@@ -9,6 +9,8 @@ interface ModalProps {
   footer: ReactNode; // To allow passing custom footer content
 }
 
+// Modal component
+// Renders a modal with a title, content, and footer
 const Modal: React.FC<ModalProps> = ({ title, children, footer }) => {
   const { isOpen, toggleModal } = useModal(); // Get the modal state and toggler from context
 
@@ -18,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({ title, children, footer }) => {
     <div
       aria-hidden={!isOpen}
       className="overflow-y-auto backdrop-blur-lg fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-50"
-    >
+    > 
       <div
         className="relative p-0 w-full max-w-2xl max-h-full rounded-lg shadow bg-background"
       >

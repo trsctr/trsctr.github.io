@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import MorphingMesh from "./MorphingMesh";
 import { PerspectiveCamera } from "@react-three/drei";
 
-const Scene: React.FC = () => {
+const MeshCanvas: React.FC = () => {
   return (
     <Canvas
           gl={{ antialias: true, alpha: true }}
@@ -17,4 +17,4 @@ const Scene: React.FC = () => {
   );
 };
 
-export default Scene;
+export default MeshCanvas;
