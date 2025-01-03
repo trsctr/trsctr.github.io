@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({ title, children }) => {
   return (
     <div
       aria-hidden={!isOpen}
-      className="overflow-y-auto backdrop-blur-lg fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full max-h-full bg-black bg-opacity-50"
+      className="overflow-y-auto backdrop-blur-md fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full max-h-full bg-black bg-opacity-50"
     > 
       <div
         className="relative px-2 w-5/6 md:w-1/2 lg:w-1/3 max-w-lg sm:max-w-full max-h-full rounded-lg shadow bg-background"

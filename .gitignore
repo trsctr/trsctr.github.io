@@ -25,3 +25,6 @@ dist-ssr
 
 # OS or Editor files
 .env
+
+# personal notes
+TODO.md

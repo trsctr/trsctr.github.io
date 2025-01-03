@@ -1,59 +1,133 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Modal from './Modal';
 import { PrimaryButton, SecondaryButton } from './ModalButtons';
 import useModal from './useModal';
-import emailjs from '@emailjs/browser';
+//import emailjs from '@emailjs/browser';
+
+const mockSendForm = (form: HTMLFormElement) => {
+    return new Promise((resolve, reject) => {
+        const delay = Math.floor(Math.random() * 9000) + 1000;
+        const isSuccess = Math.random() > 0.5;
+
+        const formData = new FormData(form);
+        const userEmail = formData.get('user_email') as string;
+        const userName = formData.get('user_name') as string;
+        const subject = formData.get('subject') as string;
+        const message = formData.get('message') as string;
+
+        console.log('Send delay:', delay);
+        console.log('Simulated message contents:', {
+            userEmail,
+            userName,
+            subject,
+            message,
+        });
+
+        setTimeout(() => {
+            if (isSuccess) {
+                // Simulate success
+                resolve({
+                    status: 200,
+                    text: 'OK',
+                    response: 'Message sent successfully',
+                });
+            }
+            else {
+                // Simulate failure
+                reject ({
+                    status: 500,
+                    text: 'Bad Request',
+                    response: 'Failed to send message. Please try again',
+                });
+            }
+        }, delay);
+    });
+};
 
 const ContactFormModal: React.FC = () => {
     const { toggleModal } = useModal();
     const form = useRef<HTMLFormElement>(null);
 
-    const [loading, setLoading] = useState(false);
-    const [statusMessage, setStatusMessage] = useState('Send me a message');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [headerStatus, setHeaderStatus] = useState('Send me a message');
+    const [bodyStatus, setBodyStatus] = useState('');
     const [formSubmitted, setFormSubmitted] = useState(false); // New state to track submission
 
     const sendEmail = (e: React.FormEvent) => {
         e.preventDefault();
-
+    
+        console.log("Current form ref: ", form.current);
+    
         if (form.current) {
-            setLoading(true);
-            setStatusMessage('Sending your message...');
-
-            emailjs
-                .sendForm(
-                    import.meta.env.VITE_REACT_APP_EMAILJS_SERVICE_ID || '',
-                    import.meta.env.VITE_REACT_APP_EMAILJS_TEMPLATE_ID || '',
+            setIsSubmitting(true);
+            setHeaderStatus('Sending your message...');
+            setBodyStatus('this will have a fancy spinner');
+            // Set a timeout duration (e.g., 7 seconds)
+            const TIMEOUT_DURATION = 9000; // 7 seconds
+    
+            // Create a timeout promise
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error("Request timed out")), TIMEOUT_DURATION)
+            );
+    
+            // Use Promise.race to race between the sendForm and the timeout
+            Promise.race([
+                mockSendForm(
+                    // import.meta.env.VITE_REACT_APP_EMAILJS_SERVICE_ID || '',
+                    // import.meta.env.VITE_REACT_APP_EMAILJS_TEMPLATE_ID || '',
                     form.current,
-                    { publicKey: import.meta.env.VITE_REACT_APP_EMAILJS_PUBLIC_KEY || '' }
-                )
-                .then(
-                    () => {
-                        // Success: Show success message, reset form, and close modal
-                        setStatusMessage('Message sent successfully!');
-                        setFormSubmitted(true); // Mark as submitted
-                        setTimeout(() => {
-                            if (form.current) form.current.reset();
-                            toggleModal(); // Close the modal after delay
-                            setStatusMessage('Send me a message'); // Reset status message
-                        }, 2000); // Adjust the delay as needed
-                    },
-                    (error) => {
-                        // Failure: Show error message
-                        setStatusMessage('Failed to send message. Please try again.');
-                        console.log('FAILED...', error.text);
-                    }
-                )
-                .finally(() => {
-                    setLoading(false);
-                });
+                    // { publicKey: import.meta.env.VITE_REACT_APP_EMAILJS_PUBLIC_KEY || '' }
+                ),
+                timeoutPromise
+            ])
+            .then(() => {
+                // Success: Show success message, reset form
+                setHeaderStatus('Message sent!');
+                setBodyStatus('Thank you for reaching out. I will get back to you soon.');
+                setFormSubmitted(true); // Mark as submitted
+                console.log('SUCCESS!');
+            })
+            .catch((error) => {
+                // Failure: Show error message, handle timeout separately
+                if (error.message === "Request timed out") {
+                    setHeaderStatus('Request timed out.');
+                    setBodyStatus('Are you sure you have an internet connection?');
+                    console.log('ERROR: Request timed out');
+                } else {
+                    setHeaderStatus('Something went wrong');
+                    setBodyStatus('Failed to send your message, sorry about that. Please try again.');
+                    console.log('FAILED...', error.message);
+                }
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setIsSubmitting(false);
+                }, 2000);
+            });
         }
     };
+        
+    //useEffect to handle modal close when form is successfully submitted
+    useEffect(() => {
+        console.log("useEffect triggered");
+        const timer = setTimeout(() => {
+            if (formSubmitted) {
+                console.log("Modal will close");
+                toggleModal();
+                setHeaderStatus('Your message has been sent');
+                setBodyStatus('"One message should be enough for everyone" - probably not Bill Gates');
+            }
+            }, 2000); // Close modal after 2 seconds
+                
+        return () => clearTimeout(timer); // Cleanup on unmount or state change
+    }, [formSubmitted]); // Trigger when formSubmitted changes
+    
 
     return (
-        <Modal title={formSubmitted ? 'Confirmation' : statusMessage}>
-            {loading ? (
+        <Modal title={headerStatus}>
+            {isSubmitting ? (
                 <div className="flex justify-center items-center">
-                    <p>{statusMessage}</p>
+                    <p>{bodyStatus}</p>
                 </div>
             ) : (
                 <form ref={form} autoComplete="off" onSubmit={sendEmail} className="w-full">
@@ -128,12 +202,12 @@ const ContactFormModal: React.FC = () => {
 
                             <div className="flex space-x-3">
                                 <PrimaryButton type="submit" label="Send" />
-                                <SecondaryButton type="button" onClick={toggleModal} label="Cancel" />
+                                <SecondaryButton type="reset" onClick={toggleModal} label="Cancel" />
                             </div>
                         </>
                     ) : (
                         <div className="flex justify-center items-center">
-                            <p>{statusMessage}</p>
+                            <p>{bodyStatus}</p>
                         </div>
                     )}
                 </form>

@@ -4,10 +4,8 @@ import Header from './components/Header';
 import MeshCanvas from './components/MeshCanvas';
 import BackgroundCanvas from './components/BackgroundCanvas';
 import ContactFormModal from './components/modal/ContactFormModal';
-import useModal from './components/modal/useModal';
 
 const App: React.FC = () => {
-  const { toggleModal } = useModal();
   return (
     <div className="w-full h-full bg-gradient-to-b from-background-top to-black">
       {/* Main container with flex layout */}
