@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ButtonProps {
-    onClick: () => void;
+    onClick?: () => void;
     type?: "button" | "submit" | "reset";
     label?: string;
     className?: string;
