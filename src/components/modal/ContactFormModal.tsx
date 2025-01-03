@@ -4,6 +4,51 @@ import { PrimaryButton, SecondaryButton } from './ModalButtons';
 import useModal from './useModal';
 //import emailjs from '@emailjs/browser';
 
+type FormFieldProps = {
+    label: string;
+    type: string;
+    name: string;
+    id: string;
+    value: string;
+    required?: boolean;
+    onChange: (e: React.ChangeEvent<HTMLInputElement> | HTMLTextAreaElement) => void;
+}
+
+const FormField: React.FC<FormFieldProps> = ({ label, type, name, id, value, required = false, onChange }) => {
+    return (
+    <div className="relative z-0 w-full mb-5 group"> 
+        {type === 'textarea' ? (
+        <textarea
+            name="message"
+            id="floating_message"
+            rows={4}
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            onChange={onChange}
+            value={value}
+            placeholder=" "
+            required = {required}
+                                />
+        ) : (
+        <input
+            type={type}
+            name={name}
+            id={id}
+            className="peer block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+            onChange={onChange}
+            value={value}
+            placeholder=" "
+            required = {required}
+        />)}
+        <label
+            htmlFor={id}
+            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >
+           {label}
+        </label>
+    </div>
+    )
+}
+    
 const mockSendForm = (form: HTMLFormElement) => {
     return new Promise((resolve, reject) => {
         const delay = Math.floor(Math.random() * 9000) + 1000;
@@ -52,7 +97,27 @@ const ContactFormModal: React.FC = () => {
     const [headerStatus, setHeaderStatus] = useState('Send me a message');
     const [bodyStatus, setBodyStatus] = useState('');
     const [formSubmitted, setFormSubmitted] = useState(false); // New state to track submission
-
+    const [formData, setFormData] = useState({
+        user_email: '',
+        user_name: '',
+        subject: '',
+        message: '',
+    });
+    
+    // Handle input changes
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+    const handleCancel = () => {
+        setFormData({
+            user_email: '',
+            user_name: '',
+            subject: '',
+            message: '',
+        });
+        toggleModal();
+    }
     const sendEmail = (e: React.FormEvent) => {
         e.preventDefault();
     
@@ -102,6 +167,7 @@ const ContactFormModal: React.FC = () => {
             .finally(() => {
                 setTimeout(() => {
                     setIsSubmitting(false);
+                    setHeaderStatus('Send me a message');
                 }, 2000);
             });
         }
@@ -134,75 +200,14 @@ const ContactFormModal: React.FC = () => {
                     {!formSubmitted ? (
                         <>
                             <div className="grid md:grid-cols-2 md:gap-6">
-                                <div className="relative z-0 w-full mb-5 group">
-                                    <input
-                                        type="email"
-                                        name="user_email"
-                                        id="floating_email"
-                                        className="peer block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
-                                        placeholder=" "
-                                        required
-                                    />
-                                    <label
-                                        htmlFor="floating_email"
-                                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                                    >
-                                        Email address
-                                    </label>
-                                </div>
-                                <div className="relative z-0 w-full mb-5 group">
-                                    <input
-                                        type="text"
-                                        name="user_name"
-                                        id="floating_name"
-                                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                        placeholder=" "
-                                        required
-                                    />
-                                    <label
-                                        htmlFor="floating_name"
-                                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                                    >
-                                        Name
-                                    </label>
-                                </div>
+                                <FormField label="Email address" type="email" name="user_email" id="floating_email" value={formData.user_email} required onChange={handleInputChange} />
+                                <FormField label="Name" type="text" name="user_name" id="floating_name" value={formData.user_name} onChange={handleInputChange} />
                             </div>
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input
-                                    type="text"
-                                    name="subject"
-                                    id="floating_subject"
-                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                    placeholder=" "
-                                    required
-                                />
-                                <label
-                                    htmlFor="floating_subject"
-                                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                                >
-                                    Subject
-                                </label>
-                            </div>
-                            <div className="relative z-0 w-full mb-5 group">
-                                <textarea
-                                    name="message"
-                                    id="floating_message"
-                                    rows={4}
-                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                    placeholder=" "
-                                    required
-                                />
-                                <label
-                                    htmlFor="floating_message"
-                                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                                >
-                                    Your message
-                                </label>
-                            </div>
-
+                            <FormField label="Subject" type="text" name="subject" id="floating_subject" value={formData.subject} onChange={handleInputChange} />
+                            <FormField label="Message" type="textarea" name="message" id="floating_message" value={formData.message} required onChange={handleInputChange} />
                             <div className="flex space-x-3">
                                 <PrimaryButton type="submit" label="Send" />
-                                <SecondaryButton type="reset" onClick={toggleModal} label="Cancel" />
+                                <SecondaryButton type="reset" onClick={handleCancel} label="Cancel" />
                             </div>
                         </>
                     ) : (
