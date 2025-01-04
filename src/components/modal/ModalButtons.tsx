@@ -41,7 +41,7 @@ export const PrimaryButton: React.FC<ButtonProps> = ({ onClick, type = "button",
                 rounded-lg px-5 py-2.5 
                 text-black font-medium text-sm text-center 
                 border border-accent
-                bg-secondary hover:bg-primary
+                bg-secondary hover:bg-accent hover:border-secondary
                 focus:ring-4 focus:outline-none focus:ring-blue-300`}
             onClick={onClick}>
             {label}
@@ -57,7 +57,7 @@ export const SecondaryButton: React.FC<ButtonProps> = ({ onClick, type = "button
                 rounded-lg py-2.5 px-5
                 text-text font-medium text-sm text-center
                 border border-gray-600
-                bg-transparent hover:bg-gray-900
+                bg-transparent hover:bg-background-top
                 focus:ring-4 focus:outline-none focus:ring-gray-700`}
             onClick={onClick}>
             {label}
