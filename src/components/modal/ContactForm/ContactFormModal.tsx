@@ -5,6 +5,7 @@ import useModal from '../useModal';
 import { FormState } from './formTypes';
 import { handleInputChange, handleCancel, sendEmailRequest, resetForm} from './formUtils';
 import FormField from './FormField';
+import Spinner from '@/components/Spinner';
 
 const ContactFormModal: React.FC = () => {
     const { toggleModal } = useModal();
@@ -34,7 +35,8 @@ const ContactFormModal: React.FC = () => {
                 toggleModal();
             }, 2000)
             return () => clearTimeout(timer)
-        }; // Close modal after 2 seconds
+        };
+         // Close modal after 2 seconds
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formSubmitted]); // Trigger when formSubmitted changes
     
@@ -51,19 +53,21 @@ const ContactFormModal: React.FC = () => {
         <Modal title={formSubmitted ? 'Thanks for getting in touch!' : statusTitleMapping[status]}>
             {status === 'sending' ? (
                 <div className="text-center justify-center items-center">
-                    <p className="py-2">Sending your message...</p> {/* You can add a spinner here if needed */}
+                    <div className="py-2">
+                    <Spinner/>
+                    </div>
                 </div>
             ) : status === 'error' ? (
                 <div className="text-center justify-center items-center">
-                    <p className="py-2">Failed to send your message, please try again.</p>
+                    <p className="py-2 text-md font-medium text-text">Failed to send your message, please try again.</p>
                 </div>
             ) : status === 'timeout' ? (
                 <div className="text-center justify-center items-center">
-                    <p className="py-2">Are you sure you have an internet connection?</p>
+                    <p className="py-2 text-md font-medium text-text">Please check your connection status and try again.</p>
                 </div>
             ) : status === 'success' ? (
                 <div className="text-center justify-center items-center">
-                    <p className="py-2">Thank you for reaching out. I will get back to you soon.</p>
+                    <p className="py-2 text-md font-medium text-text">Thank you for reaching out. I will get back to you soon.</p>
                 </div>
             ) : (
             <div className="flex justify-center items-center">
@@ -84,8 +88,8 @@ const ContactFormModal: React.FC = () => {
                     ) : (
                     <div className="align-center items-center text-center">
 
-                    <p className="pt-2 italic">'One message should be enough for everyone'</p>
-                    <p className="pb-2">- probably not Bill Gates</p>
+                    <p className="pt-2 italic text-md font-medium text-text">'One message should be enough for everyone'</p>
+                    <p className="py-2 text-text text-sm">- probably not Bill Gates</p>
                     <p className="py-2"><SecondaryButton type="button" onClick={toggleModal} label="Okay" className="mx-auto"/></p>
                     </div>
                 )}

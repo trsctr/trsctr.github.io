@@ -3,8 +3,8 @@ import { FormState } from './formTypes';
 
 export const mockSendForm = (form: HTMLFormElement) => {
     return new Promise((resolve, reject) => {
-        const delay = 8000;//Math.floor(Math.random() * 9000) + 1000;
-        const isSuccess = true;//Math.random() > 0.5;
+        const delay = Math.floor(Math.random() * 9000) + 1000;
+        const isSuccess = Math.random() > 0.5;
 
         const formData = new FormData(form);
         const userEmail = formData.get('user_email') as string;
@@ -100,5 +100,6 @@ export const sendEmailRequest = async (
         } else {
             setStatus('error');
         }
+        setTimeout(() => setStatus('idle'), 3000);
     }
 };
