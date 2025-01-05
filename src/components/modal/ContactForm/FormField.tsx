@@ -6,11 +6,13 @@ type FormFieldProps = {
     name: string;
     id: string;
     value: string;
+    maxChars?: number;
     required?: boolean;
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-const FormField: React.FC<FormFieldProps> = ({ label, type, name, id, value, required = false, onChange }) => {
+const FormField: React.FC<FormFieldProps> = ({ label, type, name, id, value, maxChars = 50, required = false, onChange }) => {
+    const minChars = type === 'textarea' ? 10 : 3;
     return (
     <div className="relative z-0 w-full mb-5 group"> 
         {type === 'textarea' ? (
@@ -18,22 +20,28 @@ const FormField: React.FC<FormFieldProps> = ({ label, type, name, id, value, req
             name="message"
             id="floating_message"
             rows={4}
-            className="block py-2.5 px-0 w-full text-sm text-text bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-accent focus:outline-none focus:ring-0 peer"
+            className="resize-none block valid:text-text py-2.5 px-0 w-full text-sm text-gray-400 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-accent focus:outline-none focus:ring-0 peer"
             onChange={onChange}
             value={value}
             placeholder=" "
             required = {required}
-                                />
+            maxLength={maxChars}
+            minLength={minChars}
+        />
         ) : (
         <input
             type={type}
             name={name}
             id={id}
-            className="peer block py-2.5 px-0 w-full text-sm text-text bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-accent focus:outline-none focus:ring-0"
+            pattern={type === 'email' ? ".+@.+\..+" : ".{3,50}"}
+            title={type === 'email' ? "Please enter a valid email address" : `${label} must be at least 3 characters long`}
+            className="peer block py-2.5 px-0 w-full text-sm text-gray-400 valid:text-text bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-accent focus:outline-none focus:ring-0"
             onChange={onChange}
             value={value}
             placeholder=" "
             required = {required}
+            maxLength={maxChars}
+            minLength={minChars}
         />)}
         <label
             htmlFor={id}

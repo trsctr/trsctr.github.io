@@ -37,7 +37,7 @@ export const PrimaryButton: React.FC<ButtonProps> = ({ onClick, type = "button",
     return (
         <button
             type={type}
-            className={`${className}
+            className={`${className} transition-colors
                 rounded-lg px-5 py-2.5 
                 text-black font-medium text-sm text-center 
                 border border-primary
@@ -54,7 +54,7 @@ export const SecondaryButton: React.FC<ButtonProps> = ({ onClick, type = "button
         <button
             type={type}
             className={`${className}
-                rounded-lg py-2.5 px-5
+                rounded-lg py-2.5 px-5 transition-colors
                 text-text font-medium text-sm text-center
                 border border-gray-600
                 bg-transparent hover:bg-background-top

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormState } from './formTypes';
+import emailjs from '@emailjs/browser';
 
 export const mockSendForm = (form: HTMLFormElement) => {
     return new Promise((resolve, reject) => {
@@ -40,7 +41,12 @@ export const mockSendForm = (form: HTMLFormElement) => {
         }, delay);
     });
 };
- 
+
+const validateEmail = (email: string) => {
+    const re = /.+@.+\..+/;
+    return re.test(email);
+}
+
 export const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     setFormData: React.Dispatch<React.SetStateAction<FormState>>
@@ -50,7 +56,6 @@ export const handleInputChange = (
 };
 
 export const resetForm = (setFormData: React.Dispatch<React.SetStateAction<FormState>>, form: HTMLFormElement | null) => {
-    console.log("resetForm called");
     setFormData({
         user_email: '',
         user_name: '',
@@ -76,6 +81,11 @@ export const sendEmailRequest = async (
 ) => {
     if (!form) return;
 
+    if (!validateEmail(form.user_email.value)) {
+        alert("Invalid email address!");
+        return;
+    }
+
     setStatus('sending');
     
     const timeoutPromise = new Promise((_, reject) =>
@@ -84,11 +94,11 @@ export const sendEmailRequest = async (
 
     try {
         await Promise.race([
-            mockSendForm(
-                // import.meta.env.VITE_REACT_APP_EMAILJS_SERVICE_ID || '',
-                // import.meta.env.VITE_REACT_APP_EMAILJS_TEMPLATE_ID || '',
+            emailjs.sendForm(
+                import.meta.env.VITE_REACT_APP_EMAILJS_SERVICE_ID || '',
+                import.meta.env.VITE_REACT_APP_EMAILJS_TEMPLATE_ID || '',
                 form,
-                // { publicKey: import.meta.env.VITE_REACT_APP_EMAILJS_PUBLIC_KEY || '' }
+                { publicKey: import.meta.env.VITE_REACT_APP_EMAILJS_PUBLIC_KEY || '' }
             ),
             timeoutPromise
         ]);
