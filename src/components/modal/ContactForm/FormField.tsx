@@ -5,7 +5,7 @@ type FormFieldProps = {
     type: string;
     name: string;
     id: string;
-    value: string;
+    value?: string;
     maxChars?: number;
     required?: boolean;
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;

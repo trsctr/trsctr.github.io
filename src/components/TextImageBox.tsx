@@ -10,7 +10,7 @@ interface TextImageBoxProps {
 const TextImage: React.FC<Pick<TextImageBoxProps, 'imageUrl' | 'altText'>> = ({ imageUrl, altText = "Image"}) => {
     return (
         <div className="w-full sm:flex flex-shrink-0 justify-center md:block md:w-1/4 mx-4 mb-0 lg:mb-4">
-        <img src={`${imageUrl}`} alt={altText} className="w-full max-w-[250px] md:max-w-[200px] mx-auto justify-center rounded-md opacity-60" />
+        <img src={`${imageUrl}`} alt={altText} className="w-full max-w-[250px] md:max-w-[200px] mx-auto justify-center rounded-md opacity-100" />
     </div>
     )
 };

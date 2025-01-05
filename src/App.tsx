@@ -25,14 +25,14 @@ const App: React.FC = () => {
             
             {/* Textbox section */}
             <div className="flex-1 p-5 z-30">
-              <About title="Hello, my name is Otto" imageUrl="/assets/photo.jpg" imageOnRight>
-                <p className="mb-2">This is my webpage.</p>
-                <p>There are many like it, but this one is mine.</p>
-                <p className="mt-2">Something something something about something and I like cats and good music.</p>
-                <p className="mt-2">Lorem ipsum dolor shit Valmet. Shiggity shiggity schwa. Hello world. Bla bla bla. Is this shader heavy.</p>
-                <p className="mt-2">Lässyn lässyn lää läpäti lää</p>
-              </About>
-              <ContactFormModal/>
+            <About title="Hello, my name is Otto" imageUrl="/assets/photo.jpg" imageOnRight>
+              <p className="mb-2">I'm a software engineer with a background in audio engineering and tech support, passionate about creative coding.</p>
+              <p>I recently completed my core studies at <a href="http://hive.fi" className="text-primary hover:text-accent transition-all" target="_blank">Hive Helsinki</a>, where I gained hands-on experience in programming with C and C++. </p>
+              <p className="mt-2">I built this page so I could have some fun with React, Tailwind, and Three.js, and showcase my projects in the future.</p>
+              <p className="mt-2">Hope you like what you see! Feel free to interact with that mesh, check out my work and connect with me on LinkedIn or GitHub.</p>
+              <p className="mt-2">The photo on the right was taken by fellow Hive student <a href="https://www.instagram.com/diego_j_videos_and_photography/" className="text-primary hover:text-accent transition-all" target="_blank">Diego James</a>.</p>
+            </About>
+            <ContactFormModal/>
             </div>
 
             {/* 3D Mesh section */}

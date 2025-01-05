@@ -1,11 +1,23 @@
 import React from 'react';
 import { FormState } from './formTypes';
 import emailjs from '@emailjs/browser';
+import DOMPurify from 'dompurify';
+
+export const sanitizeFormData = (formData: FormData): FormData => {
+    const sanitizedData = new FormData();
+    for (const [key, value] of formData.entries()) {
+        if (typeof value === 'string') {
+            // Sanitize and strip all HTML tags
+            sanitizedData.append(key, DOMPurify.sanitize(value, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] }));
+        }
+    }
+    return sanitizedData;
+};
 
 export const mockSendForm = (form: HTMLFormElement) => {
     return new Promise((resolve, reject) => {
         const delay = Math.floor(Math.random() * 9000) + 1000;
-        const isSuccess = Math.random() > 0.5;
+        const isSuccess = false;//Math.random() > 0.5;
 
         const formData = new FormData(form);
         const userEmail = formData.get('user_email') as string;
@@ -81,13 +93,46 @@ export const sendEmailRequest = async (
 ) => {
     if (!form) return;
 
-    if (!validateEmail(form.user_email.value)) {
+    const honeypotField = form.honeypot?.value as string;
+    
+    if (honeypotField) {
+        // If the honeypot field is filled, it's likely a bot
+        return; // Stop the form submission
+    }
+
+    const formData = new FormData(form);
+    const sanitizedData = sanitizeFormData(formData);
+
+    if (!validateEmail(sanitizedData.get('user_email') as string)) {
         alert("Invalid email address!");
         return;
     }
+    const sanitizedMessage = sanitizedData.get('message') as string;
 
-    setStatus('sending');
-    
+    if (!sanitizedMessage || sanitizedMessage.length < 10) {
+        alert("Your message should contain at least 10 characters!")
+        return;
+    }
+
+   
+    // Create a new form element
+    const sanitizedForm = document.createElement('form');
+    sanitizedForm.style.display = 'none'; // Hide the form to avoid visual interference
+
+    // Populate the new form with sanitized data
+    for (const [key, value] of sanitizedData.entries()) {
+        const input = document.createElement('input');
+        input.type = 'hidden'; // Use hidden inputs to avoid rendering them
+        input.name = key;
+        input.value = value as string;
+        sanitizedForm.appendChild(input);
+    }
+
+    // Append the new form to the document body temporarily
+    document.body.appendChild(sanitizedForm);
+
+     setStatus('sending');
+
     const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error("Request timed out")), setTimeoutDuration)
     );
@@ -97,7 +142,7 @@ export const sendEmailRequest = async (
             emailjs.sendForm(
                 import.meta.env.VITE_REACT_APP_EMAILJS_SERVICE_ID || '',
                 import.meta.env.VITE_REACT_APP_EMAILJS_TEMPLATE_ID || '',
-                form,
+                sanitizedForm, // Use the new sanitized form
                 { publicKey: import.meta.env.VITE_REACT_APP_EMAILJS_PUBLIC_KEY || '' }
             ),
             timeoutPromise
@@ -111,5 +156,7 @@ export const sendEmailRequest = async (
             setStatus('error');
         }
         setTimeout(() => setStatus('idle'), 3000);
+    } finally {
+        document.body.removeChild(sanitizedForm); // Clean up the form after sending
     }
 };
