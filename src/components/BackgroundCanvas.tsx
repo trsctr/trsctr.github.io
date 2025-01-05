@@ -1,6 +1,6 @@
-import { useFrame } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { ShaderMaterial, Vector2 }  from 'three';
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, memo } from 'react';
 import vertexShader from '@/shaders/BackgroundVertex.glsl';
 import fragmentShader from '@/shaders/BackgroundFragment.glsl';
 
@@ -36,4 +36,10 @@ const BackgroundShader = () => {
     );
   };
 
-  export default BackgroundShader;
+  const BackgroundCanvas = memo(() => (
+    <Canvas className="w-full h-full opacity-30">
+      <BackgroundShader />
+    </Canvas>
+  ));
+
+  export default BackgroundCanvas;

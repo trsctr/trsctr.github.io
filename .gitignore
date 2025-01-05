@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# OS or Editor files
+.env
+
+# personal notes
+TODO.md

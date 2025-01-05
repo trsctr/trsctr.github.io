@@ -1,18 +1,16 @@
 import React from 'react';
 import About from './components/About';
 import Header from './components/Header';
-import Scene from './components/Scene';
-import BackgroundShader from './components/BackgroundShader';
-import { Canvas } from '@react-three/fiber';
+import MeshCanvas from './components/MeshCanvas';
+import BackgroundCanvas from './components/BackgroundCanvas';
+import ContactFormModal from './components/modal/ContactForm/ContactFormModal';
 
 const App: React.FC = () => {
   return (
     <div className="w-full h-full bg-gradient-to-b from-background-top to-black">
       {/* Main container with flex layout */}
       <div className=" top-0 left-0 w-full h-full fixed">
-        <Canvas className="w-full h-full opacity-30">
-          <BackgroundShader />
-        </Canvas>
+        <BackgroundCanvas />
       </div>
 
       <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center w-full">
@@ -27,19 +25,20 @@ const App: React.FC = () => {
             
             {/* Textbox section */}
             <div className="flex-1 p-5 z-30">
-              <About title="Hello, my name is Otto" imageUrl="/assets/photo.jpg" imageOnRight>
-                <p className="mb-2">This is my webpage.</p>
-                <p>There are many like it, but this one is mine.</p>
-                <p className="mt-2">Something something something about something and I like cats and good music.</p>
-                <p className="mt-2">Lorem ipsum dolor shit Valmet. Shiggity shiggity schwa. Hello world. Bla bla bla. Is this shader heavy.</p>
-                <p className="mt-2">Lässyn lässyn lää läpäti lää</p>
-              </About>
+            <About title="Hello, my name is Otto" imageUrl="/assets/photo.jpg" imageOnRight>
+              <p className="mb-2">I'm a software engineer with a background in audio engineering and tech support, passionate about creative coding.</p>
+              <p>I recently completed my core studies at <a href="http://hive.fi" className="text-primary hover:text-accent transition-all" target="_blank">Hive Helsinki</a>, where I gained hands-on experience in programming with C and C++. </p>
+              <p className="mt-2">I built this page so I could have some fun with React, Tailwind, and Three.js, and showcase my projects in the future.</p>
+              <p className="mt-2">Hope you like what you see! Feel free to interact with that mesh, check out my work and connect with me on LinkedIn or GitHub.</p>
+              <p className="mt-2">The photo on the right was taken by fellow Hive student <a href="https://www.instagram.com/diego_j_videos_and_photography/" className="text-primary hover:text-accent transition-all" target="_blank">Diego James</a>.</p>
+            </About>
+            <ContactFormModal/>
             </div>
 
-            {/* Canvas section */}
+            {/* 3D Mesh section */}
             <div className="flex-1 p-5 flex justify-center -mt-20 lg:mt-0 z-0">
               <div className="relative min-w-[200px] w-full max-w-[800px] h-auto aspect-[1/1]">
-                <Scene />
+                <MeshCanvas />
               </div>
             </div>
           </div>
