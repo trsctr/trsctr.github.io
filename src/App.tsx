@@ -30,7 +30,7 @@ const App: React.FC = () => {
               <p>I recently completed my core studies at <a href="http://hive.fi" className="text-primary hover:text-accent transition-all" target="_blank">Hive Helsinki</a>, where I gained hands-on experience in programming with C and C++. </p>
               <p className="mt-2">I built this page so I could have some fun with React, Tailwind, and Three.js, and showcase my projects in the future.</p>
               <p className="mt-2">Hope you like what you see! Feel free to interact with that mesh, check out my work and connect with me on LinkedIn or GitHub.</p>
-              <p className="mt-2">The photo on the right was taken by fellow Hive student <a href="https://www.instagram.com/diego_j_videos_and_photography/" className="text-primary hover:text-accent transition-all" target="_blank">Diego James</a>.</p>
+              <p className="mt-2">Photo by <a href="https://www.instagram.com/diego_j_videos_and_photography/" className="text-primary hover:text-accent transition-all" target="_blank">Diego James</a>.</p>
             </About>
             <ContactFormModal/>
             </div>
