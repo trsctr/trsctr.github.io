@@ -78,7 +78,7 @@ const ContactFormModal: React.FC = () => {
                     <FormField label="Name" type="text" name="user_name" id="floating_name" value={formData.user_name} onChange={(e) => handleInputChange(e, setFormData)} />
                     </div>
                     <FormField label="Subject" type="text" name="subject" id="floating_subject" value={formData.subject} onChange={(e) => handleInputChange(e, setFormData)} />
-                    <FormField label="Message* (max 256 characters)" type="textarea" name="message" id="floating_message" maxChars = {(256)} value={formData.message} required onChange={(e) => handleInputChange(e, setFormData)} />
+                    <FormField label="Message* (max 640 characters)" type="textarea" name="message" id="floating_message" maxChars = {(640)} value={formData.message} required onChange={(e) => handleInputChange(e, setFormData)} />
                     <p className="pt-0 pb-4 text-xs text-gray-400">*Required fields</p>
                     <div className="hidden aria-hidden">
                     <FormField label="Leave this field empty" id="honeypot_field" onChange={()=>{}} value="" type="text" name="honeypot" />
