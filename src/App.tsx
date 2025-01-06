@@ -26,7 +26,7 @@ const App: React.FC = () => {
             {/* Textbox section */}
             <div className="flex-1 p-5 z-30">
             <About title="Hello, my name is Otto" imageUrl="/assets/photo.jpg" imageOnRight>
-              <p className="mb-2">I'm an aspiring software engineer with a background in audio engineering and tech support, passionate about creative coding.</p>
+              <p className="mb-2">I'm an aspiring software developer with a background in audio engineering and tech support, passionate about creative coding.</p>
               <p>I recently completed my core studies at <a href="http://hive.fi" className="text-primary hover:text-accent transition-all" target="_blank">Hive Helsinki</a>, where I gained hands-on experience in programming with C and C++. </p>
               <p className="mt-2">I built this page so I could have some fun with React, Tailwind, and Three.js, and showcase my projects in the future.</p>
               <p className="mt-2">Hope you like what you see! Feel free to interact with that mesh, check out my work and connect with me on LinkedIn or GitHub.</p>
