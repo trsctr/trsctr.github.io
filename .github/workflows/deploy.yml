@@ -24,17 +24,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4. Build the Vite project with environment variables from GitHub Secrets
+      # 4. Build the Vite project using secrets directly in the build command
       - name: Build Vite project
-        env:
-          VITE_REACT_APP_EMAILJS_SERVICE_ID: ${{ secrets.VITE_REACT_APP_EMAILJS_SERVICE_ID }}
-          VITE_REACT_APP_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_REACT_APP_EMAILJS_PUBLIC_KEY }}
-          VITE_REACT_APP_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_REACT_APP_EMAILJS_TEMPLATE_ID }}
-        run: npm run build
+        run: VITE_REACT_APP_EMAILJS_SERVICE_ID=${{ secrets.VITE_REACT_APP_EMAILJS_SERVICE_ID }} \
+             VITE_REACT_APP_EMAILJS_PUBLIC_KEY=${{ secrets.VITE_REACT_APP_EMAILJS_PUBLIC_KEY }} \
+             VITE_REACT_APP_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_REACT_APP_EMAILJS_TEMPLATE_ID }} \
+             npm run build
 
-      # 5. Deploy to GitHub Pages
+      # 5. Deploy to GitHub Pages securely using PAT (Personal Access Token)
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: './dist'  # Path to the built files
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub's automatically provided token
+          github_token: ${{ secrets.GH_IO_PAT }}  # Use your stored PAT for authentication
