@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({
     > 
       <div
         ref={modalRef}
-        className="relative flex flex-col px-2 w-5/6 md:w-1/2 lg:w-1/3 max-w-lg sm:max-w-full max-h-full overflow-y-scroll rounded-lg shadow bg-background"
+        className="relative flex flex-col px-2 w-5/6 md:w-1/2 lg:w-1/3 max-w-lg sm:max-w-full max-h-full overflow-auto rounded-lg shadow bg-background"
       >
         {/* Modal Header */}
         <div className="md:flex text-center md:text-left items-center justify-between pt-3 md:p-3">
