@@ -8,19 +8,18 @@ import FormField from './FormField';
 import Spinner from '../../Spinner';
 
 /**
- * StatusMessage component
+ * StatusMessage Component
  * 
- * Renders a message based on the status of the form submission
- * Displays a spinner when status is 'sending', error message when status is 'error' or 'timeout',
- * or a success message when status is 'success'.
+ * A component that displays feedback messages based on the current form submission status.
+ * 
+ * Features:
+ * - Renders a spinner when the form submission is in progress (`status: "sending"`).
+ * - Shows error messages for failed submissions (`status: "error"` or `"timeout"`).
+ * - Displays a success message when the form is successfully submitted (`status: "success"`).
  * 
  * Props:
- * - status: 'sending', 'error', 'timeout', 'success' - Current form submission status
- *
- * Usage:
- * <StatusMessage status="sending" />
- * Renders a loading spinner
-*/
+ * - `status` ('sending' | 'error' | 'timeout' | 'success'): The current status of the form submission.
+ */
 const StatusMessage: React.FC<{ status: 'sending' | 'error' | 'timeout' | 'success' }> = ({ status }) => {
     const paragraphStyle = "py-2 text-md font-medium text-text"; // Common paragraph style
 
@@ -39,21 +38,23 @@ const StatusMessage: React.FC<{ status: 'sending' | 'error' | 'timeout' | 'succe
 };
 
 /**
- * ContactFormModal component
+ * ContactFormModal Component
  * 
- * Displays a modal that allows user to submit a contact form.
- * Handles form submission and displays status messages based on the submission status.
- * Form is reset and modal is closed after successful submission.
- * User will not be able to submit the form again after a successful submission.
- * Renders the form if status is idle and form is not submitted.
- * If status is not idle, renders a status message based on the status.
+ * A modal that allows the user to submit a contact form and displays feedback based on the form submission status.
  * 
- * Props: None
+ * Features:
+ * - Displays a contact form with fields for email, name, subject, and message.
+ * - Tracks and manages the status of form submission (`sending`, `success`, `error`, `timeout`, `idle`).
+ * - Resets the form and closes the modal after a successful submission.
+ * - Prevents the user from submitting the form again after a successful submission.
+ * - Dynamically renders the form or a status message depending on the submission status.
  * 
  * States:
- * - status: 'sending' | 'success' | 'error' | 'timeout' | 'idle' - Tracks the status of the form submission
- * - formSubmitted: boolean - Tracks if the form is submitted. If true, form will not be rendered.
- * - formData: FormState - Tracks the form data (email, name, subject, message)
+ * - `status` (`'sending' | 'success' | 'error' | 'timeout' | 'idle'`): Tracks the current status of the form submission.
+ * - `formSubmitted` (boolean): Indicates whether the form has been successfully submitted. If `true`, the form will not be rendered again.
+ * - `formData` (`FormState`): Stores the current form data, including the fields for email, name, subject, and message.
+ * 
+ * Props: None
  */
 
 const ContactFormModal: React.FC = () => {
