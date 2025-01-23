@@ -3,24 +3,45 @@ import useModal from './useModal';
 import Header from '../Header';
 import { CloseButton } from './ModalButtons'
 
+/**
+ * ModalProps
+ * 
+ * Interface for the props of the Modal component.
+ * See Modal component for more details.
+ */
 
 interface ModalProps {
-  title: string; // Title of the modal
-  hasCloseButton?: boolean; // To show or hide the close button
-  headerColors?: string; // To allow passing custom colors to the header
-  children: ReactNode; // To allow passing custom content inside the modal
+  title: string;
+  hasCloseButton?: boolean;
+  headerColors?: string;
+  children: ReactNode;
 }
 
-// Modal component
-// Renders a modal with a title, content, and footer
+/**
+ * Modal Component
+ * 
+ * A modal component that displays content in a centered overlay.
+ * 
+ * Features:
+ * - Customizable title and content.
+ * - Optional close button for user interaction.
+ * - Uses the useModal hook to manage the modal state.
+ * 
+ * Props:
+ * - `title` (string): The title of the modal.
+ * - `hasCloseButton` (boolean): Whether to show a close button (default: false).
+ * - `headerColors` (string): The gradient colors for the header (optional).
+ * - `children` (ReactNode): The content to display inside the modal.
+ * 
+ */
 const Modal: React.FC<ModalProps> = ({
     title,
     hasCloseButton = false,
     headerColors,
     children,
     }) =>{
-      const { isOpen, toggleModal } = useModal(); // Get the modal state and toggler from context
-      const modalRef = React.createRef<HTMLDivElement>();
+      const { isOpen, toggleModal } = useModal();
+      const modalRef = React.createRef<HTMLDivElement>(); // Create a ref for the modal
 
       if (!isOpen) return null; // Do not render the modal if it's not open
 
@@ -40,7 +61,9 @@ const Modal: React.FC<ModalProps> = ({
         </div>
 
         {/* Modal Content */}
-        <div className='flex-grow px-3 pt-3 md:pt-0 pb-3 space-y-4 text-text'>{children}</div>
+        <div className='flex-grow px-3 pt-3 md:pt-0 pb-3 space-y-4 text-text'>
+          {children}
+        </div>
 
       </div>
     </div>
