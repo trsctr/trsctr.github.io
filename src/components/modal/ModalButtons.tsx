@@ -1,10 +1,28 @@
 import React from 'react';
+import { cn } from '../../utils/cn';
 
+/**
+ * ButtonProps
+ * 
+ * Interface for the props of the Button components.
+ * See Button component for more details.
+ */
 interface ButtonProps {
     onClick?: () => void;
     type?: "button" | "submit" | "reset";
     label?: string;
     className?: string;
+}
+
+export const Button: React.FC<ButtonProps> = ({ onClick, type = "button", label = "Button", className = "" }) => {
+    return (
+        <button
+            type={type}
+            className={cn('rounded-lg px-5 py-2.5 border border-black transition-color delay-75 text-text font-medium text-sm text-center', className)}
+            onClick={onClick}>
+            {label}
+        </button>
+    );
 }
 
 export const CloseButton: React.FC<ButtonProps> = ({ onClick }) => {
@@ -35,33 +53,29 @@ export const CloseButton: React.FC<ButtonProps> = ({ onClick }) => {
 
 export const PrimaryButton: React.FC<ButtonProps> = ({ onClick, type = "button", label = "Button", className = "" }) => {
     return (
-        <button
+        <Button
             type={type}
-            className={`${className} transition-colors
-                rounded-lg px-5 py-2.5 
-                text-black font-medium text-sm text-center 
-                border border-primary
-                bg-secondary hover:bg-accent hover:border-secondary
-                focus:ring-2 focus:outline-none focus:ring-blue-300`}
-            onClick={onClick}>
-            {label}
-        </button>
+            className={cn(
+                `text-black border-primary bg-secondary
+                hover:bg-accent hover:border-secondary
+                focus:ring-2 focus:outline-none focus:ring-blue-300`, className)}
+            onClick={onClick}
+            label={label}>
+        </Button>
     );
 };
 
 export const SecondaryButton: React.FC<ButtonProps> = ({ onClick, type = "button", label = "Button", className = ""}) => {
     return (
-        <button
+        <Button
             type={type}
-            className={`${className}
-                rounded-lg py-2.5 px-5 transition-colors
-                text-text font-medium text-sm text-center
-                border border-gray-600
+            className={cn(`
+                border-gray-600
                 bg-transparent hover:bg-background-top
-                focus:ring-2 focus:outline-none focus:ring-gray-200`}
-            onClick={onClick}>
-            {label}
-        </button>
+                focus:ring-2 focus:outline-none focus:ring-gray-200`, className)}
+            onClick={onClick}
+            label={label}>
+        </Button>
     
     );
 };
