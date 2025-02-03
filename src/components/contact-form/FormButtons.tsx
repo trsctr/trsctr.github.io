@@ -1,16 +1,8 @@
 import React from "react";
-import Button from '../common/Button'
+import Button, { ButtonProps } from '../common/Button'
 import { cn } from '../../utils/cn'
 
-interface FormButtonProps {
-    onClick?: () => void;
-    type?: "button" | "submit" | "reset";
-    label?: string;
-    className?: string;
-    disabled?: boolean;
-}
-
-export const PrimaryButton: React.FC<FormButtonProps> = ({ onClick, type = "button", label = "Button", className = "", disabled = false }) => {
+export const PrimaryButton: React.FC<ButtonProps> = ({ onClick, type = "button", label = "Button", className = "", disabled = false }) => {
     return (
         <Button
             type={type}
@@ -25,7 +17,7 @@ export const PrimaryButton: React.FC<FormButtonProps> = ({ onClick, type = "butt
     );
 };
 
-export const SecondaryButton: React.FC<FormButtonProps> = ({ onClick, type = "button", label = "Button", className = "", disabled = false}) => {
+export const SecondaryButton: React.FC<ButtonProps> = ({ onClick, type = "button", label = "Button", className = "", disabled = false}) => {
     return (
         <Button
             type={type}
