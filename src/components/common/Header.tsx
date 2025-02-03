@@ -35,7 +35,8 @@ interface HeaderProps {
  * - Instead use className prop for additional styling (font weight, text alignment, kerning, etc.).
  */
 const Header: React.FC<HeaderProps> = ({ 
-    text, color = "text-text",
+    text,
+    color = "text-text",
     gradientColors = "from-primary to-secondary",
     className,
     hasGradient = false,
@@ -47,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({
             {
                 'text-transparent bg-clip-text bg-gradient-to-r': hasGradient,
                 [gradientColors || '']: hasGradient,
-                [color]: !hasGradient
+                [color]: !hasGradient || !gradientColors,
             },
             textSize,
             className

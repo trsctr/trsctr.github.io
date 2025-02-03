@@ -43,7 +43,7 @@ const Button: React.FC<ButtonProps> = ({
             className={cn(`rounded-lg px-5 py-2.5 border border-black transition-color delay-75
                         text-text font-medium text-sm text-center`,
                         className, 
-                        disabled ? 'cursor-not-allowed opacity-50 bg-gray-600 hover:bg-gray-600 text-white border-0' : '')}
+                        disabled && 'cursor-not-allowed opacity-50 bg-gray-600 hover:bg-gray-600 text-white border-0')}
             onClick={onClick}
             disabled={disabled}>
             {label}

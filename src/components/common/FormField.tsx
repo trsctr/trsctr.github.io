@@ -64,7 +64,7 @@ const FormField: React.FC<FormFieldProps> = ({
                     className={cn(`resize-none block valid:text-text py-2.5 px-0 w-full text-sm
                             text-gray-400 bg-transparent border-0 border-b-2 border-gray-600
                             appearance-none focus:border-accent focus:outline-none focus:ring-0 peer`,
-                            disabled ? 'cursor-not-allowed' : '')}
+                            disabled && 'cursor-not-allowed')}
                     onChange={onChange}
                     value={value}
                     placeholder=" "
@@ -85,7 +85,7 @@ const FormField: React.FC<FormFieldProps> = ({
                     className={cn(`peer block py-2.5 px-0 w-full text-sm text-gray-400 valid:text-text
                             bg-transparent border-0 border-b-2 border-gray-600 appearance-none
                             focus:border-accent focus:outline-none focus:ring-0`,
-                            disabled ? 'cursor-not-allowed' : '')}
+                            disabled && 'cursor-not-allowed')}
                     onChange={onChange}
                     value={value}
                     placeholder=" "
@@ -103,7 +103,7 @@ const FormField: React.FC<FormFieldProps> = ({
                         peer-focus:text-accent peer-placeholder-shown:scale-100
                         peer-placeholder-shown:translate-y-0 peer-focus:scale-75
                         peer-focus:-translate-y-6`,
-                        disabled ? 'text-opacity-50' : '')}
+                        disabled && 'text-opacity-50')}
             >
             {label}
             </label>
