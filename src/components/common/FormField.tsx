@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../utils/cn';
 
 /**
  * FormFieldProps
@@ -14,6 +15,7 @@ type FormFieldProps = {
     value?: string;
     maxChars?: number;
     required?: boolean;
+    disabled?: boolean;
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
@@ -35,6 +37,7 @@ type FormFieldProps = {
  * - `value?` (string): The current value of the field (optional).
  * - `maxChars?` (number): The maximum number of characters allowed (default: 50).
  * - `required?` (boolean): Whether the field is required (default: false).
+ * - `disabled?` (boolean): Whether the field is disabled (default: false).
  * - `onChange` (function): Callback triggered when the field value changes. It receives a `React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>`.
  */
 const FormField: React.FC<FormFieldProps> = ({
@@ -45,6 +48,7 @@ const FormField: React.FC<FormFieldProps> = ({
     value,
     maxChars = 50,
     required = false,
+    disabled = false,
     onChange
 }) => {
     // Set the minimum number of characters allowed depending on the type of input
@@ -57,13 +61,15 @@ const FormField: React.FC<FormFieldProps> = ({
                     name="message"
                     id="floating_message"
                     rows={4}
-                    className="resize-none block valid:text-text py-2.5 px-0 w-full text-sm
+                    className={cn(`resize-none block valid:text-text py-2.5 px-0 w-full text-sm
                             text-gray-400 bg-transparent border-0 border-b-2 border-gray-600
-                            appearance-none focus:border-accent focus:outline-none focus:ring-0 peer"
+                            appearance-none focus:border-accent focus:outline-none focus:ring-0 peer`,
+                            disabled ? 'cursor-not-allowed' : '')}
                     onChange={onChange}
                     value={value}
                     placeholder=" "
-                    required = {required}
+                    required={required}
+                    disabled={disabled}
                     maxLength={maxChars}
                     minLength={minChars}
                 />
@@ -76,25 +82,28 @@ const FormField: React.FC<FormFieldProps> = ({
                     title={type === 'email'
                         ? "Please enter a valid email address"
                         : `${label} must be at least 3 characters long`}
-                    className="peer block py-2.5 px-0 w-full text-sm text-gray-400 valid:text-text
+                    className={cn(`peer block py-2.5 px-0 w-full text-sm text-gray-400 valid:text-text
                             bg-transparent border-0 border-b-2 border-gray-600 appearance-none
-                            focus:border-accent focus:outline-none focus:ring-0"
+                            focus:border-accent focus:outline-none focus:ring-0`,
+                            disabled ? 'cursor-not-allowed' : '')}
                     onChange={onChange}
                     value={value}
                     placeholder=" "
-                    required = {required}
+                    required={required}
+                    disabled={disabled}
                     maxLength={maxChars}
                     minLength={minChars}
                 />
             )}
             <label
                 htmlFor={id}
-                className="peer-focus:font-medium absolute text-sm text-gray-400 
+                className={cn(`peer-focus:font-medium absolute text-sm text-gray-400 
                         duration-300 transform -translate-y-6 scale-75 top-3 -z-10 
                         origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 
                         peer-focus:text-accent peer-placeholder-shown:scale-100
                         peer-placeholder-shown:translate-y-0 peer-focus:scale-75
-                        peer-focus:-translate-y-6"
+                        peer-focus:-translate-y-6`,
+                        disabled ? 'text-opacity-50' : '')}
             >
             {label}
             </label>
