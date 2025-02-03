@@ -25,7 +25,7 @@ const TextImage: React.FC<Pick<TextImageBoxProps, 'imageUrl' | 'altText'>> = ({ 
 */
 const TextImageBox: React.FC<TextImageBoxProps> = ({ imageUrl, children, imageOnRight = false, altText = "Image"}) => {
 return (
-    <div className="flex flex-col md:flex-row text-text text-md items-center md:items-start pt-5">
+    <div className="flex flex-col md:flex-row text-text text-md items-center md:items-start pt-1">
         {!imageOnRight && imageUrl && (
             <TextImage imageUrl={imageUrl} altText={altText}/>
         )}

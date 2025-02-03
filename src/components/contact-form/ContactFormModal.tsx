@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
-import Modal from '../Modal';
-import { PrimaryButton, SecondaryButton } from '../ModalButtons';
-import useModal from '../useModal';
-import { FormState } from './formTypes';
-import { handleInputChange, handleCancel, sendEmailRequest, resetForm} from './formUtils';
-import FormField from './FormField';
-import Spinner from '../../Spinner';
+import Modal from '../modal/Modal';
+import { PrimaryButton, SecondaryButton } from './FormButtons';
+import useModal from '../modal/useModal';
+import { FormState } from '../../types/formTypes';
+import { handleInputChange, handleCancel, sendEmailRequest, resetForm} from '../../utils/formUtils';
+import FormField from '../common/FormField';
+import Spinner from '../common/Spinner';
 
 /**
  * StatusMessage Component
@@ -211,7 +211,7 @@ const ContactFormModal: React.FC = () => {
                         </div>
                     )}
                 </div>
-           )}
+            )}
         </Modal>
     );
 };

@@ -1,39 +1,42 @@
 import React from 'react';
-import ContentBox from './ContentBox';
-import Header from './Header';
-import Footer from './Footer';
-import TextImageBox from './TextImageBox'
+import ContentBox from './layout/ContentBox';
+import Footer from './layout/Footer';
+import TextImageBox from './layout/TextImageBox'
+import useModal from './modal/useModal';
+import Header from './common/Header';
 
-interface AboutProps {
-    title?: string;
-    imageUrl?: string;
-    imageOnRight?: boolean;
-    children?: React.ReactNode;
-}
+const About: React.FC = ( ) => {
+    const { toggleModal } = useModal();
+    const linkStyle = 'transition-all text-primary hover:text-accent me-4 md:me-12';
 
-/*
-    * A component that displays an about section with an image.
-    * 
-    * @param title The title of the about section.
-    * @param imageUrl The URL of the image to display.
-    * @param imageOnRight Whether to display the image on the right side of the text box.
-    * @param children The content to display in the about section.
-*/
-const About: React.FC<AboutProps> = ( {title, imageUrl, children, imageOnRight = false}) => {
     return (
-    <div className="md:absolute flex left-0 top-0 md:top-1/4 md:left-32 w-full md:w-9/12 max-w-[900px]">
-    <ContentBox className="rounded-lg shadow-lg">
-            {title && <Header text={title} hasGradient/>}
+    <ContentBox divStyle='md:absolute flex left-0 top-0 md:top-1/4 md:left-32 w-full md:w-9/12 max-w-[900px]'
+        sectionStyle='bg-background opacity-80 relative p-4 flex justify-center rounded-lg shadow-lg'>
+        <Header text="Hello, my name is Otto" hasGradient/>
+        <TextImageBox imageUrl='/assets/photo.jpg' imageOnRight={true}>        
+            <p className="mb-2">I'm an aspiring software developer with a background in audio engineering and tech support, passionate about creative coding.</p>
+            <p>I recently completed my core studies at <a href="http://hive.fi" className="text-primary hover:text-accent transition-all" target="_blank">Hive Helsinki</a>, where I gained hands-on experience in programming with C and C++. </p>
+            <p className="mt-2">I built this page so I could have some fun with React, Tailwind, and Three.js, and showcase my projects in the future.</p>
+            <p className="mt-2">Hope you like what you see! Feel free to interact with that mesh, check out my work and connect with me on LinkedIn or GitHub.</p>
+            <p className="mt-2">Photo by <a href="https://www.instagram.com/diego_j_videos_and_photography/" className="text-primary hover:text-accent transition-all" target="_blank">Diego James</a>.</p>
+        </TextImageBox>
+        <Footer>
+        <li>
+            <a href="http://github.com/trsctr/trsctr.github.io" target="_blank" className={linkStyle}>Source code</a>
+        </li>
+        <li>
+            <a href="http://github.com/trsctr" target="_blank" className={linkStyle}>GitHub</a>
+        </li>
 
-
-            <TextImageBox imageUrl={imageUrl} imageOnRight={imageOnRight}>
-                
-                {children}
-            </TextImageBox>
-        <Footer/>
+        <li>
+            <a href="http://linkedin.com/in/otto-andelin" target="_blank" className={linkStyle}>LinkedIn</a>
+        </li>
+        <li >
+            <a href="#" onClick={toggleModal} className={linkStyle}>Contact</a>
+        </li>
+        </Footer>
     </ContentBox>
-    </div>
     );
-  };
+};
 
-  export default About;
+export default About;

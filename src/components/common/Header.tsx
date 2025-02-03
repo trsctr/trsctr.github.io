@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({
 
         return (
         <h1 className={clsx(
-            'font-bold leading-tight',
+            'font-bold pb-2',
             className,
             textSize,
             {

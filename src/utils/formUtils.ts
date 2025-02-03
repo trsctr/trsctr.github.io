@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormState } from './formTypes';
+import { FormState } from '../types/formTypes';
 import emailjs from '@emailjs/browser';
 import DOMPurify from 'dompurify';
 
@@ -197,7 +197,6 @@ export const sendEmailRequest = async (
         return;
     }
 
-   
     // Create a new form element
     const sanitizedForm = document.createElement('form');
     sanitizedForm.style.display = 'none'; // Hide the form to avoid visual interference

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import useModal from './useModal';
-import Header from '../Header';
-import { CloseButton } from './ModalButtons'
+import Header from '../common/Header';
+import CloseModalButton from './CloseModalButton'
 
 /**
  * ModalProps
@@ -29,14 +29,16 @@ interface ModalProps {
  * 
  * Props:
  * - `title` (string): The title of the modal.
- * - `hasCloseButton` (boolean): Whether to show a close button (default: false).
+ * - `hasCloseButton` (boolean): Whether to show a close button (default: true).
  * - `headerColors` (string): The gradient colors for the header (optional).
  * - `children` (ReactNode): The content to display inside the modal.
  * 
+ * Notes:
+ * - Make sure you provide another way to close the modal if you disable the close button!
  */
 const Modal: React.FC<ModalProps> = ({
     title,
-    hasCloseButton = false,
+    hasCloseButton = true,
     headerColors,
     children,
     }) =>{
@@ -57,7 +59,7 @@ const Modal: React.FC<ModalProps> = ({
         {/* Modal Header */}
         <div className="md:flex text-center md:text-left items-center justify-between pt-3 md:p-3">
           <Header text={title} textSize="text-2xl" hasGradient gradientColors={headerColors}/>
-          {hasCloseButton ? (<CloseButton onClick={toggleModal}/>) : (<></>)}
+          {hasCloseButton ? (<CloseModalButton onClick={toggleModal}/>) : (<></>)}
         </div>
 
         {/* Modal Content */}
