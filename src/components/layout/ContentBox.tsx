@@ -1,33 +1,35 @@
 import React from 'react';
-import Header from '../common/Header';
 
+/**
+ * ContentBoxProps
+ * 
+ * Props for the ContentBox component.
+ */
 interface ContentBoxProps {
-    children?: React.ReactNode;
-    divStyle?: string;
-    sectionStyle?: string;
+    children: React.ReactNode;  // Assuming children will always be passed
+    containerClassName?: string;  // Renaming divStyle for clarity
+    contentClassName?: string;    // Renaming sectionStyle for clarity
 }
 
-/*
-    * A component that displays an about section with an image.
-    * 
-    * @param title The title of the about section.
-    * @param imageUrl The URL of the image to display.
-    * @param imageOnRight Whether to display the image on the right side of the text box.
-    * @param children The content to display in the about section.
-*/
-const ContentBox: React.FC<ContentBoxProps> = ( {title, children, divStyle, sectionStyle}) => {
-    // "md:absolute flex left-0 top-0 md:top-1/4 md:left-32 w-full md:w-9/12 max-w-[900px]"
-
+/**
+ * ContentBox Component
+ * 
+ * A component that displays a content box with customizable styles for its container and content.
+ * 
+ * Props:
+ * - `containerClassName` (string): The class names for the outer container div (handles horizontal placement, size, etc.).
+ * - `contentClassName` (string): The class names for the section, handles color, padding, etc.
+ * - `children` (ReactNode): The content to display inside the content box.
+ */
+const ContentBox: React.FC<ContentBoxProps> = ({ children, containerClassName, contentClassName }) => {
     return (
-    <div className={divStyle}>
-    
-    <section className={sectionStyle}>
-      {/* Content Box */}
-        <div className="w-full flex-col">
-            {children}
+        <div className={containerClassName}>
+            <section className={contentClassName}>
+                <div className="w-full flex-col">
+                    {children}
+                </div>
+            </section>
         </div>
-    </section>
-    </div>
     );
 };
 
