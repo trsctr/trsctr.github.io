@@ -3,7 +3,7 @@ import About from './components/About';
 import Header from './components/common/Header';
 import MeshCanvas from './components/MeshCanvas';
 import BackgroundCanvas from './components/BackgroundCanvas';
-import ContactFormModal from './components/ContactForm/ContactFormModal';
+import ContactFormModal from './components/contact-form/ContactFormModal';
 
 const App: React.FC = () => {
   return (
