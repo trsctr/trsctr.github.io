@@ -2,7 +2,19 @@ import React, { useRef, useMemo } from "react";
 import { BufferGeometry, Float32BufferAttribute, Color, BufferAttribute, InterleavedBufferAttribute, MathUtils,  Mesh, DoubleSide } from "three";
 import { useFrame , ThreeEvent } from "@react-three/fiber";
 
-// Helper function to generate random vertices
+/**
+ * generateVertices
+ * 
+ * Generates an array of random vertices within a given size.
+ * 
+ * Parameters:
+ * - `points` (number): Number of vertices to generate (default: 55).
+ * - `size` (number): Size of the bounding box for vertices, determines size of the object (default: 4).
+ * 
+ * Returns:
+ * - An array of random vertices.
+ */
+
 const generateVertices = (points: number = 55, size: number = 4): number[] => {
 	const vertices: number[] = [];
 	for (let i = 0; i < points; i++) {
@@ -14,7 +26,19 @@ const generateVertices = (points: number = 55, size: number = 4): number[] => {
 	return vertices;
 };
 
-// Helper function to generate colors based on vertices
+
+/**
+ * generateColors
+ * 
+ * Generates an array of colors based on the distance of vertices from the origin.
+ * 
+ * Parameters:
+ * - `vertices` (number[]): Array of vertices to generate colors for.
+ * - `colormod` (number): Color modifier to adjust the hue of generated colors (default: 1).
+ * 
+ * Returns:
+ * - An array of colors corresponding to the vertices.
+ */
 const generateColors = (vertices: number[], colormod: number = 1): number[] => {
 	const colors: number[] = [];
 	for (let i = 0; i < vertices.length; i += 3) {
@@ -30,7 +54,16 @@ const generateColors = (vertices: number[], colormod: number = 1): number[] => {
 	return colors;
 };
 
-// Helper function to interpolate mesh attributes
+/**
+ * interpolateAttributes
+ * 
+ * Interpolates mesh attributes towards a target value.
+ * 
+ * Parameters:
+ * - `attr` (BufferAttribute | InterleavedBufferAttribute): Attribute to interpolate.
+ * - `target` (number[]): Target values to interpolate towards.
+ * - `delta` (number): Interpolation factor (0 to 1).
+ */
 const interpolateAttributes = (attr: BufferAttribute | InterleavedBufferAttribute, target: number[], delta: number) => {
 	for (let i = 0; i < attr.count * 3; i++) {
 		attr.array[i] = MathUtils.lerp(attr.array[i] as number, target[i], 2 * delta);
@@ -38,7 +71,15 @@ const interpolateAttributes = (attr: BufferAttribute | InterleavedBufferAttribut
 	attr.needsUpdate = true;
 };
 
-// Helper function to rotate a mesh
+/**
+ * rotateMesh
+ * 
+ * Rotates a mesh around the x and y axes.
+ * 
+ * Parameters:
+ * - `mesh` (Mesh | null): Mesh to rotate.
+ * - `delta` (number): Rotation speed.
+ */
 const rotateMesh = (mesh: Mesh | null, delta: number) => {
 	if (mesh) {
 		mesh.rotation.y += 0.05 * delta;
@@ -46,12 +87,42 @@ const rotateMesh = (mesh: Mesh | null, delta: number) => {
 	}
 };
 
-// MorphingMesh component
+
+/**
+ * MorphingMesh Component
+ * 
+ * A 3D mesh component with interactive morphing geometry and dynamic vertex coloring.
+ * 
+ * Features:
+ * - **Randomized Geometry & Colors**:
+ *   - Generates a random mesh with custom vertices and colors.
+ *   - Click events trigger morphing to a new random geometry.
+ *   - Vertex colors are influenced by click position and distance from vertices.
+ * 
+ * - **Mesh Structure**:
+ *   - Solid mesh with vertex colors and adjustable transparency.
+ *   - Wireframe mesh overlay with matching vertex colors and transparency.
+ *   - Both meshes share the same geometry for synchronized morphing.
+ * 
+ * - **Animation & Interaction**:
+ *   - Smooth morphing animation using linear interpolation (LERP).
+ *   - Mesh continuously rotates for visual effect.
+ *   - Click events initiate both geometry morphing and color transitions.
+ * 
+ * - **Performance Optimizations**:
+ *   - Uses React refs for efficient state management, preventing unnecessary re-renders.
+ *	 - Memoizes initial vertices and colors to avoid recalculating on every render.
+ *   - Leverages `useFrame` from `@react-three/fiber` for per-frame updates without impacting component performance.
+ * 
+ * Dependencies:
+ * - `@react-three/fiber` for 3D rendering and frame updates.
+ * 
+ */
 const MorphingMesh: React.FC = () => {
 	const solidMeshRef = useRef<Mesh>(null);
 	const wireframeMeshRef = useRef<Mesh>(null);
 
-	// Use refs instead of state for tracking morphing progress and targets
+	// Use refs instead of state for tracking morphing progress and targets to avoid unnecessary re-renders
 	const morphProgressRef = useRef(0);
 	const morphTargetRef = useRef<number[] | null>(null);
 	const targetColorsRef = useRef<number[]>([]);
@@ -82,8 +153,10 @@ const MorphingMesh: React.FC = () => {
 	};
 
 	useFrame((_, delta) => {
+		// Check if the meshes are initialized
 		if (solidMeshRef.current && wireframeMeshRef.current) {
-		
+			
+			// If a morph target is set, interpolate the attributes
 			if (morphTargetRef.current) {
 				const positionAttr = solidMeshRef.current.geometry.attributes.position;
 				const colorAttr = solidMeshRef.current.geometry.attributes.color;
@@ -102,6 +175,7 @@ const MorphingMesh: React.FC = () => {
 				wireframeMeshRef.current!.geometry = solidMeshRef.current.geometry;
 			}
 
+			// Rotate the meshes
 			rotateMesh(solidMeshRef.current, delta);
 			rotateMesh(wireframeMeshRef.current, delta);
 		}

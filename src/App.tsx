@@ -1,8 +1,8 @@
 import React from 'react';
 import About from './components/About';
 import Header from './components/common/Header';
-import MeshCanvas from './components/MeshCanvas';
-import BackgroundCanvas from './components/BackgroundCanvas';
+import MeshCanvas from './components/canvas/MeshCanvas';
+import BackgroundCanvas from './components/canvas/BackgroundCanvas';
 import ContactFormModal from './components/contact-form/ContactFormModal';
 
 /**
@@ -15,6 +15,13 @@ const App: React.FC = () => {
 	return (
 		<div className="w-full h-full bg-gradient-to-b from-background-top to-black">
 		{/* Main container with flex layout */}
+		
+		{ /* Add animation:
+			- Loading animation displayed while still loading
+			- Fade-in animation for the entire page
+		*/}
+
+		{/* Background canvas */}
 		<div className=" top-0 left-0 w-full h-full fixed">
 			<BackgroundCanvas />
 		</div>
