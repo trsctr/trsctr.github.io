@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import useModal from './useModal';
+import useModal from '../../hooks/useModal';
 import Header from '../common/Header';
 import CloseModalButton from './CloseModalButton'
 

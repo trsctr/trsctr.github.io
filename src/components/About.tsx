@@ -2,7 +2,7 @@ import React from 'react';
 import ContentBox from './layout/ContentBox';
 import Footer from './layout/Footer';
 import TextImageBox from './layout/TextImageBox'
-import useModal from './modal/useModal';
+import useModal from '../hooks/useModal';
 import Header from './common/Header';
 import { cn } from '../utils/cn';
 

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Modal from '../modal/Modal';
 import { PrimaryButton, SecondaryButton } from './FormButtons';
-import useModal from '../modal/useModal';
+import useModal from '../../hooks/useModal';
 import { FormState } from '../../types/formTypes';
 import { handleInputChange, handleCancel, sendEmailRequest, resetForm} from '../../utils/formUtils';
 import FormField from '../common/FormField';

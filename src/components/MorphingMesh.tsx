@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from "react";
 import { BufferGeometry, Float32BufferAttribute, Color, BufferAttribute, InterleavedBufferAttribute, MathUtils,  Mesh, DoubleSide } from "three";
-import { useFrame } from "@react-three/fiber";
+import { useFrame , ThreeEvent } from "@react-three/fiber";
 
 // Helper function to generate random vertices
 const generateVertices = (points: number = 55, size: number = 4): number[] => {
@@ -71,7 +71,7 @@ const MorphingMesh: React.FC = () => {
 	// handleClick generates new random geometry and colors
 	// and sets the morph target to the new geometry
 	// click position is use as modifier for color generation
-	const handleClick = (event: any) => {
+	const handleClick = (event: ThreeEvent<MouseEvent>) => {
 		const { point } = event;
 		const colormod = Math.abs(point.x + point.y - point.z) * Math.random();
 		const newVertices = generateVertices();
