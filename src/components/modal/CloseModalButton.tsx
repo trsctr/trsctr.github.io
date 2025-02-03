@@ -1,9 +1,22 @@
 import React from 'react';
 
+/**
+ * CloseModalButtonProps
+ * 
+ * Prop for the CloseModalButton component.
+ */
 interface CloseModalButtonProps {
     onClick?: ()=> void;
 }
 
+/**
+ * CloseModalButton Component
+ * 
+ * A button component for closing a modal.
+ * 
+ * Props:
+ * - `onClick` (function): Function to be executed on click.
+ */
 const CloseModalButton: React.FC<CloseModalButtonProps> = ({ onClick }) => {
     return (
         <button
@@ -25,7 +38,7 @@ const CloseModalButton: React.FC<CloseModalButtonProps> = ({ onClick }) => {
                 strokeWidth="2"
                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
             </svg>
-        <span className="sr-only">Close modal</span>
+            <span className="sr-only">Close modal</span>
         </button>
     );
 };

@@ -30,7 +30,13 @@ export interface ButtonProps {
  * - `label` string: Text on the button, for example "Click Me"
  * - `className` string: Custom tailwind styles 
  */
-const Button: React.FC<ButtonProps> = ({ onClick = ()=>{}, type = "button", label = "Button", className = "", disabled = false }) => {
+const Button: React.FC<ButtonProps> = ({ 
+    onClick = ()=>{},
+    type = "button",
+    label = "Button",
+    className = "",
+    disabled = false
+}) => {
     return (
         <button
             type={type}

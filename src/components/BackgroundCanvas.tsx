@@ -9,37 +9,36 @@ const BackgroundShader = () => {
     const random = Math.random();
     
     const uniforms = useMemo(() => ({
-      uTime: { value: 0 },
-      uResolution: { value: new Vector2(window.innerWidth, window.innerHeight) },
-      uRandom : { value: random }
+    	uTime: { value: 0 },
+    	uResolution: { value: new Vector2(window.innerWidth, window.innerHeight) },
+    	uRandom : { value: random }
     }), [random]);
-  
+
     useFrame((_, delta) => {
-      if (materialRef.current) {
-        materialRef.current.uniforms.uTime.value += delta;
-      }
+    	if (materialRef.current) {
+        	materialRef.current.uniforms.uTime.value += delta;
+    }
     });
-  
+
     return (
-      <mesh position={[0, 0, -1]}>
-        <planeGeometry args={[2, 2]} />
-        <shaderMaterial
-          ref={materialRef}
-          uniforms={uniforms}
-          depthWrite={false}
-          depthTest={false}
-          vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
-
-        />
-      </mesh>
+    	<mesh position={[0, 0, -1]}>
+			<planeGeometry args={[2, 2]} />
+			<shaderMaterial
+				ref={materialRef}
+				uniforms={uniforms}
+				depthWrite={false}
+				depthTest={false}
+				vertexShader={vertexShader}
+				fragmentShader={fragmentShader}
+			/>
+    	</mesh>
     );
-  };
+};
 
-  const BackgroundCanvas = memo(() => (
-    <Canvas className="w-full h-full opacity-30">
-      <BackgroundShader />
+const BackgroundCanvas = memo(() => (
+	<Canvas className="w-full h-full opacity-30">
+    	<BackgroundShader />
     </Canvas>
-  ));
+));
 
-  export default BackgroundCanvas;
+export default BackgroundCanvas;

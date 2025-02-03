@@ -2,7 +2,31 @@ import React from "react";
 import Button, { ButtonProps } from '../common/Button'
 import { cn } from '../../utils/cn'
 
-export const PrimaryButton: React.FC<ButtonProps> = ({ onClick, type = "button", label = "Button", className = "", disabled = false }) => {
+// These components use ButtonProps interface for handling props
+// If you need to extend functionality and handle more props
+// consider creating an interface that extends ButtonProps
+
+/**
+ * PrimaryButton Component
+ * 
+ * A primary button component with primary color and hover effects.
+ * 
+ * Props:
+ * - `onClick` (function): Function to be executed on click.
+ * - `type` (string): The type of the button (default: 'button').
+ * - `label` (string): The text to display on the button (default: 'Button').
+ * - `className` (string): Additional styling classes to apply to the button.
+ * - `disabled` (boolean): Whether the button is disabled (default: false).
+ * 
+ * Notes:
+ * - All style props must be valid Tailwind CSS classes.
+ */
+export const PrimaryButton: React.FC<ButtonProps> = ({ 
+    onClick, type = "button",
+    label = "Button",
+    className = "",
+    disabled = false 
+}) => {
     return (
         <Button
             type={type}
@@ -17,7 +41,27 @@ export const PrimaryButton: React.FC<ButtonProps> = ({ onClick, type = "button",
     );
 };
 
-export const SecondaryButton: React.FC<ButtonProps> = ({ onClick, type = "button", label = "Button", className = "", disabled = false}) => {
+/**
+ * SecondaryButton Component
+ * 
+ * A secondary button component with secondary color and hover effects.
+ * 
+ * Props:
+ * - `onClick` (function): Function to be executed on click.
+ * - `type` (string): The type of the button (default: 'button').
+ * - `label` (string): The text to display on the button (default: 'Button').
+ * - `className` (string): Additional styling classes to apply to the button.
+ * - `disabled` (boolean): Whether the button is disabled (default: false).
+ * 
+ * Notes:
+ * - All style props must be valid Tailwind CSS classes.
+ */
+export const SecondaryButton: React.FC<ButtonProps> = ({ 
+    onClick, type = "button",
+    label = "Button",
+    className = "",
+    disabled = false 
+}) => {
     return (
         <Button
             type={type}

@@ -32,15 +32,15 @@ interface HeaderProps {
  * Notes:
  * - All style props must be valid Tailwind CSS classes, see defaults for examples.
  * - **Do not pass colors and text size in the className prop, as it will override textSize, color and gradientColors props.**
- * - Use className prop for additional styling (font weight, text alignment, kerning, etc.).
+ * - Instead use className prop for additional styling (font weight, text alignment, kerning, etc.).
  */
 const Header: React.FC<HeaderProps> = ({ 
     text, color = "text-text",
     gradientColors = "from-primary to-secondary",
     className,
     hasGradient = false,
-    textSize = "text-4xl lg:text-6xl"}) => {
-
+    textSize = "text-4xl lg:text-6xl"
+}) => {
         return (
         <h1 className={cn(
             'font-bold pb-2',
