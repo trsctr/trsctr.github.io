@@ -1,7 +1,17 @@
 # trsctr.github.io
 
-Personal web page built with React, TypeScript, Vite, TailwindCSS, React-three-fiber.
+A personal website built with **React, TypeScript, Vite, Tailwind CSS, and React-Three-Fiber**.  
 
-I created this so I could learn, explore and experiment, and I aim to showcase my projects and work on this page in the future.
+## Overview  
 
-<a href="https://trsctr.github.io" target="_blank">Click here to see the deployed page</a> (opens to a new tab).
+I created this project as a space to **learn, explore, and experiment** with modern web technologies. The site features:  
+- A **GLSL shader-based animated background** for visual interest  
+- An **interactive 3D mesh** using React-Three-Fiber and Drei  
+- A **functional contact form**  
+- A clean, responsive UI built with Tailwind CSS  
+
+## Future Plans  
+
+I plan to expand this site to showcase my projects and explore new web technologies through continuous iteration.
+
+[**Click here**](https://trsctr.github.io) to see the deployed page (opens in a new tab).  
