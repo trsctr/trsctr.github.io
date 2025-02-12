@@ -14,4 +14,4 @@ I created this project as a space to **learn, explore, and experiment** with mod
 
 I plan to expand this site to showcase my projects and explore new web technologies through continuous iteration.
 
-[**Click here**](https://trsctr.github.io) to see the deployed page (opens in a new tab).  
+[**Click here**](https://trsctr.github.io) to see the deployed page.  
