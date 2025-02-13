@@ -13,6 +13,7 @@ type FormFieldProps = {
     name: string;
     id: string;
     value?: string;
+    rows?: number;
     maxChars?: number;
     required?: boolean;
     disabled?: boolean;
@@ -46,6 +47,7 @@ const FormField: React.FC<FormFieldProps> = ({
     name,
     id,
     value,
+    rows = 4,
     maxChars = 50,
     required = false,
     disabled = false,
@@ -58,9 +60,9 @@ const FormField: React.FC<FormFieldProps> = ({
         <div className="relative z-0 w-full mb-5 group"> 
             {type === 'textarea' ? (
                 <textarea
-                    name="message"
-                    id="floating_message"
-                    rows={4}
+                    name={name}
+                    id={id}
+                    rows={rows}
                     className={cn(`resize-none block valid:text-text py-2.5 px-0 w-full text-sm
                             text-gray-400 bg-transparent border-0 border-b-2 border-gray-600
                             appearance-none focus:border-accent focus:outline-none focus:ring-0 peer`,
