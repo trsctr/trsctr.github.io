@@ -10,8 +10,8 @@ interface TextImageBoxProps {
 const TextImage: React.FC<Pick<TextImageBoxProps, 'imageUrl' | 'altText'>> = ({ imageUrl, altText = "Image"}) => {
     return (
         <div className="w-full sm:flex flex-shrink-0 justify-center md:block md:w-1/4 mx-4 mb-0 lg:mb-4">
-        <img src={`${imageUrl}`} alt={altText} className="w-full max-w-[250px] md:max-w-[200px] mx-auto justify-center rounded-md opacity-100" />
-    </div>
+            <img src={`${imageUrl}`} alt={altText} className="w-full max-w-[250px] md:max-w-[200px] mx-auto justify-center rounded-md opacity-100" />
+        </div>
     )
 };
 
@@ -24,18 +24,19 @@ const TextImage: React.FC<Pick<TextImageBoxProps, 'imageUrl' | 'altText'>> = ({ 
     * @param altText The alt text for the image.  
 */
 const TextImageBox: React.FC<TextImageBoxProps> = ({ imageUrl, children, imageOnRight = false, altText = "Image"}) => {
-return (
-    <div className="flex flex-col md:flex-row text-text text-md items-center md:items-start pt-5">
-        {!imageOnRight && imageUrl && (
-            <TextImage imageUrl={imageUrl} altText={altText}/>
-        )}
-        <div className="flex flex-1 flex-col items-start justify-start">
-            {children}
+    return (
+        <div className="flex flex-col md:flex-row text-text text-md items-center md:items-start pt-1">
+            {!imageOnRight && imageUrl && (
+                <TextImage imageUrl={imageUrl} altText={altText}/>
+            )}
+            <div className="flex flex-1 flex-col items-start justify-start">
+                {children}
+            </div>
+            {imageOnRight && imageUrl && (
+                <TextImage imageUrl={imageUrl} altText={altText}/>
+            )}
         </div>
-        {imageOnRight && imageUrl && (
-            <TextImage imageUrl={imageUrl} altText={altText}/>
-        )}
-    </div>)
+    );
 };
 
 export default TextImageBox;

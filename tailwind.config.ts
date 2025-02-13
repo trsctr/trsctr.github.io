@@ -11,8 +11,8 @@ const config: Config = {
         'primary': '#96e5ba',
         'secondary': '#2df389',
         'accent': '#2ddff3',
-       },              
-      },
+      },              
+    },
   },
   plugins: [],
 };
