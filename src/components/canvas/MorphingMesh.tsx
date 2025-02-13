@@ -45,7 +45,7 @@ const generateColors = (vertices: number[], colormod: number = 1): number[] => {
 		const x = vertices[i];
 		const y = vertices[i + 1];
 		const z = vertices[i + 2];
-		const distance = Math.sqrt(x * x + y * y + z * z);
+		const distance = Math.sqrt(x ** 2 + y **2 + z ** 2);
 		const color = new Color();
 		const hue = distance * colormod % 1;
 		color.setHSL(hue, 1, 0.5);
@@ -127,7 +127,7 @@ const MorphingMesh: React.FC = () => {
 	const morphTargetRef = useRef<number[] | null>(null);
 	const targetColorsRef = useRef<number[]>([]);
 
-	// Memoizing the initial vertices and colors
+	// Memoizing the initial vertices and colors to avoid recalculating on every render
 	const initialVertices = useMemo(() => generateVertices(), []);
 	const initialColors = useMemo(() => generateColors(initialVertices), [initialVertices]);
 
@@ -141,7 +141,7 @@ const MorphingMesh: React.FC = () => {
 
 	// handleClick generates new random geometry and colors
 	// and sets the morph target to the new geometry
-	// click position is use as modifier for color generation
+	// colormod is calculated based on the click position and a random value
 	const handleClick = (event: ThreeEvent<MouseEvent>) => {
 		const { point } = event;
 		const colormod = Math.abs(point.x + point.y - point.z) * Math.random();

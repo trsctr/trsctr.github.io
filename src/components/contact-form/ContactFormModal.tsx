@@ -114,17 +114,24 @@ const ContactFormModal: React.FC = () => {
 
     return (
         <Modal title={formSubmitted ? 'Thanks for getting in touch!' : modalTitleMapping[status]}>
+            { /*
+                Currently the modal shows either the status message or the form
+                Consider overlaying the status message on top of the form for better UX
+                And to avoid resizing the modal when the status message changes
+                Add some nice animations for transitions
+            */}
+            
             {status !== 'idle' ? (
                 <StatusMessage status={status}/>
             ) : (
                 <div className="flex justify-center items-center">
                     {!formSubmitted ? (
-                        <form ref={form} autoComplete="off" onSubmit={handleSubmit} className="w-full">
+                        <form ref={form} onSubmit={handleSubmit} className="w-full">
                             <div className="grid md:grid-cols-2 md:gap-6">
                                 <FormField 
                                     label="Email address*"
                                     type="email"
-                                    name="user_email" 
+                                    name="email" 
                                     id="floating_email"
                                     value={formData.user_email}
                                     required
@@ -136,7 +143,7 @@ const ContactFormModal: React.FC = () => {
                                 <FormField
                                     label="Name"
                                     type="text"
-                                    name="user_name" 
+                                    name="name" 
                                     id="floating_name"
                                     value={formData.user_name} 
                                     onChange={
