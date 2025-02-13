@@ -36,6 +36,7 @@ type FormFieldProps = {
  * - `name` (string): The name attribute for the form field.
  * - `id` (string): The id attribute for pairing the label with the form field.
  * - `value?` (string): The current value of the field (optional).
+ * - `rows?` (number): The number of rows for a textarea field (default: 4).
  * - `maxChars?` (number): The maximum number of characters allowed (default: 50).
  * - `required?` (boolean): Whether the field is required (default: false).
  * - `disabled?` (boolean): Whether the field is disabled (default: false).
