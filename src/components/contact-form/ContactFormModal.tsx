@@ -8,34 +8,69 @@ import FormField from '../common/FormField';
 import Spinner from '../common/Spinner';
 
 /**
+ * FormStatus 
+ * 
+ * Type for form submission status
+ * 
+ * Values:
+ * - `sending`: Form is being sent
+ * - `error`: Form submission failed
+ * - `timeout`: Form submission timed out
+ * - `success`: Form submission successful
+ * - `idle`: No form submission in progress
+ */
+type FormStatus = 'sending' | 'error' | 'timeout' | 'success' | 'idle';
+
+/**
  * StatusMessage Component
  * 
- * A component that displays feedback messages based on the current form submission status.
- * 
+ * A functional component that displays a status message.
+ *
  * Features:
- * - Renders a spinner when the form submission is in progress (`status: "sending"`).
- * - Shows error messages for failed submissions (`status: "error"` or `"timeout"`).
- * - Displays a success message when the form is successfully submitted (`status: "success"`).
+ * - Displays content from StatusMessageContent based on the status prop.
+ * - Uses a grid layout to center the content.
  * 
  * Props:
- * - `status` ('sending' | 'error' | 'timeout' | 'success'): The current status of the form submission.
+ * - `status` (`FormStatus`): The status of the form submission.
  */
-const StatusMessage: React.FC<{ status: 'sending' | 'error' | 'timeout' | 'success' }> = ({ status }) => {
-    const paragraphStyle = "py-2 text-md font-medium text-text"; // Common paragraph style
-
-    const content: Record<'sending' | 'error' | 'timeout' | 'success', JSX.Element> = {
-        sending: <div className="grid place-items-center py-2 align-middle"><Spinner /></div>,
-        error: <p className={paragraphStyle}>Failed to send your message, please try again.</p>,
-        timeout: <p className={paragraphStyle}>Please check your connection status and try again.</p>,
-        success: <p className={paragraphStyle}>Thank you for reaching out. I will get back to you soon.</p>,
-    };
+const StatusMessage: React.FC<{status: FormStatus}> = ({status}) => {
 
     return (
         <div className="grid place-items-center text-center justify-center items-center align-middle">
-            {content[status]}
+            <StatusMessageContent status={status} />
         </div>
     );
 };
+
+/**
+ * StatusMessageContent Component
+ * 
+ * Sub-component of StatusMessage that displays the content of the status message.
+ * 
+ * Features:
+ * - Displays different content based on the status prop.
+ * 
+ * Props:
+ * - `status` (`FormStatus`): The status of the form submission.
+ */
+const StatusMessageContent: React.FC<{status: FormStatus}> = ({status}) => {
+    const paragraphStyle = "py-2 text-md font-medium text-text"; // Common paragraph style
+
+    switch (status) {
+        case 'sending':
+            return <div className="grid place-items-center py-2 align-middle"><Spinner /></div>;
+        case 'error':
+            return <p className={paragraphStyle}>Failed to send your message, please try again.</p>;
+        case 'timeout':
+            return <p className={paragraphStyle}>Please check your connection status and try again.</p>;
+        case 'success':
+            return <p className={paragraphStyle}>Thank you for reaching out. I will get back to you soon.</p>;
+        default:
+            return null;
+    }
+}
+
+
 
 /**
  * ContactFormModal Component
@@ -62,13 +97,7 @@ const ContactFormModal: React.FC = () => {
     
     const form = useRef<HTMLFormElement>(null); // Ref for the form element
     
-    const [status, setStatus] = useState<
-        'sending' | 
-        'success' | 
-        'error' | 
-        'timeout' | 
-        'idle'>
-        ('idle'); // set idle as default status
+    const [status, setStatus] = useState<FormStatus>('idle'); // set idle as default status
 
     // if form is submitted, set to true to prevent further submissions
     const [formSubmitted, setFormSubmitted] = useState(false);
