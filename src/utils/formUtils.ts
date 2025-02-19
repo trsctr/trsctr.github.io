@@ -234,9 +234,9 @@ export const sendEmailRequest = async (
         // Set the status to success and mark the form as submitted
         setStatus('success');
         setFormSubmitted(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
         // Handle request errors and set the status accordingly
-        if (error.message === "Request timed out") {
+        if (error instanceof Error && error.message === "Request timed out") {
             setStatus('timeout');
         } else {
             setStatus('error');

@@ -81,7 +81,7 @@ const FormField: React.FC<FormFieldProps> = ({
                     type={type}
                     name={name}
                     id={id}
-                    pattern={type === 'email' ? ".+@.+\..+" : ".{3,50}"}
+                    pattern={type === 'email' ? ".+@.+..+" : ".{3,50}"}
                     title={type === 'email'
                         ? "Please enter a valid email address"
                         : `${label} must be at least 3 characters long`}
