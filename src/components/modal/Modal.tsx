@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import useModal from '../../hooks/useModal';
 import Header from '../common/Header';
 import CloseModalButton from './CloseModalButton'
-
+import { AnimatePresence, motion } from "motion/react"
 /**
  * ModalProps
  * 
@@ -48,17 +48,24 @@ const Modal: React.FC<ModalProps> = ({
 	if (!isOpen) return null; // Do not render the modal if it's not open
 
 	return (
-		<div
+		<AnimatePresence><motion.div
 			aria-hidden={!isOpen}
 			className="overflow-auto backdrop-blur-sm fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full max-h-full bg-black bg-opacity-50"
+			initial={{ opacity: 0 }}  // Initial state (hidden)
+			animate={{ opacity: 1 }}  // Final state (fully visible)
 		>
 			{/* Add animation:
 				Overlay fade-in/fade-out or blur transition
 			*/}
 
-			<div
+			<AnimatePresence>
+			<motion.div
 			ref={modalRef}
 			className="relative flex flex-col px-2 w-5/6 md:w-1/2 lg:w-1/3 max-w-lg sm:max-w-full max-h-full overflow-auto rounded-lg shadow bg-background"
+			initial={{ opacity: 0, scale: 0.1 }}  // Initial state (scaled down and hidden)
+			animate={{ opacity: 1, scale: 1 }}    // Final state (normal size and fully visible)
+			exit={{ opacity: 0, scale: 0.1 }}     // Exit state (scaled down and hidden)
+			transition={{ duration: 0.3 }}        // Duration for the transition
 			>
 				{/* Add animation:
 					Modal box entrance (e.g., slide-in, scale-up, fade-in)
@@ -88,8 +95,10 @@ const Modal: React.FC<ModalProps> = ({
 					Modal box exit (e.g., slide-out, scale-down, fade-out)
 				*/}	
 
-			</div>
-		</div>
+			</motion.div>
+			</AnimatePresence>
+		</motion.div>
+		</AnimatePresence>
 	);
 };
 
