@@ -65,36 +65,39 @@ const Modal: React.FC<ModalProps> = ({
 			<motion.div
 			ref={modalRef}
 			className="relative flex flex-col px-2 w-5/6 md:w-1/2 lg:w-1/3 max-w-lg sm:max-w-full max-h-full overflow-auto rounded-lg shadow bg-background"
-			initial={{ opacity: 0, scale: 1 }}  // Initial state (scaled down and hidden)
-			animate={{ opacity: 1, scale: 1 }}    // Final state (normal size and fully visible)
-			exit={{ opacity: 0.2, scale: 1 }}     // Exit state (scaled down and hidden)
-			transition={{ duration: .3,
+			initial={{ opacity: 0, scale: .1}}  // Initial state (scaled down and hidden)
+			animate={{ opacity: 1, scale: 1}}    // Final state (normal size and fully visible)
+			exit={{ opacity: 0.2, scale: .5 }}     // Exit state (scaled down and hidden)
+			transition={{ duration: .2,
 			}}        // Duration for the transition
 			>
 				{/* Add animation:
 					Modal box entrance (e.g., slide-in, scale-up, fade-in)
 				*/}
-
+			
 				{/* Modal Header */}
-				<div className="md:flex text-center md:text-left items-center justify-between pt-3 md:p-3">
+				<motion.div
+					initial={{ opacity: 0, y: -50 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: .4 }}
+					className="md:flex text-center md:text-left items-center justify-between pt-3 md:p-3">
 					<Header text={title} textSize="text-2xl" hasGradient gradientColors={headerColors}/>
 					{/* Close button */}
 					{hasCloseButton ? (<CloseModalButton onClick={toggleModal}/>) : (<></>)}
-					{/* Add animation:
-						Some kind of hover effect on the close button.
-						Modify CloseModalButton component to do this.
-						Suggestions: Scale up on hover?
-					*/}
-				</div>
+				</motion.div>
 				{/* Modal Content */}
-				<div className='flex-grow px-3 pt-3 md:pt-0 pb-3 space-y-4 text-text'>
+				<motion.div
+					initial={{ opacity: 0, y: -50 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.4 }}
+					className='flex-grow px-3 pt-3 md:pt-0 pb-3 space-y-4 text-text'>
 					{/* Add animation:
 						Modal content entrance and exit (e.g., fade-in)
 						Optional, do you need animation for the content if the box is animated?
 					*/
 					}
 					{children}
-				</div>
+				</motion.div>
 				{/* Add animation:
 					Modal box exit (e.g., slide-out, scale-down, fade-out)
 				*/}	

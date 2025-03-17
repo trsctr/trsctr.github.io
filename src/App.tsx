@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, MotionConfig } from 'motion/react';
 import About from './components/About';
 import Header from './components/common/Header';
 import MeshCanvas from './components/canvas/MeshCanvas';
@@ -14,7 +14,8 @@ import ContactFormModal from './components/contact-form/ContactFormModal';
  */
 const App: React.FC = () => {
 	return (
-		<motion.div initial={{opacity:0}} animate={{ opacity:1}} transition={{duration: .3}} 
+		<MotionConfig reducedMotion="user">
+			<motion.div initial={{opacity:0}} animate={{ opacity:1}} transition={{duration: .3}} 
 		className="w-full h-full bg-gradient-to-b from-background-top to-black">
 		{/* Main container with flex layout
 		- fade in animation on initial render
@@ -51,6 +52,7 @@ const App: React.FC = () => {
 			</div>
 
 		</motion.div>
+		</MotionConfig>
 	);
 };
 
