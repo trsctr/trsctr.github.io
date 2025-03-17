@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import About from './components/About';
 import Header from './components/common/Header';
 import MeshCanvas from './components/canvas/MeshCanvas';
@@ -13,14 +14,12 @@ import ContactFormModal from './components/contact-form/ContactFormModal';
  */
 const App: React.FC = () => {
 	return (
-		<div className="w-full h-full bg-gradient-to-b from-background-top to-black">
-		{/* Main container with flex layout */}
-		
-		{ /* Add animation:
-			- Loading animation displayed while still loading
-			- Fade-in animation for the entire page
+		<motion.div initial={{opacity:0}} animate={{ opacity:1}} transition={{duration: .3}} 
+		className="w-full h-full bg-gradient-to-b from-background-top to-black">
+		{/* Main container with flex layout
+		- fade in animation on initial render
 		*/}
-
+		
 		{/* Background canvas */}
 		<div className=" top-0 left-0 w-full h-full fixed">
 			<BackgroundCanvas />
@@ -44,14 +43,14 @@ const App: React.FC = () => {
 
 				{/* 3D Mesh section */}
 				<div className="flex-1 p-5 flex justify-center -mt-20 lg:mt-0 z-0">
-				<div className="relative min-w-[200px] w-full max-w-[800px] h-auto aspect-[1/1]">
-					<MeshCanvas />
-				</div>
+					<div className="relative min-w-[200px] w-full max-w-[800px] h-auto aspect-[1/1]">
+						<MeshCanvas />
+					</div>
 				</div>
 			</div>
 			</div>
 
-		</div>
+		</motion.div>
 	);
 };
 

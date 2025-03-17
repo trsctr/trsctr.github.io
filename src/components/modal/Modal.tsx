@@ -45,27 +45,31 @@ const Modal: React.FC<ModalProps> = ({
 	const { isOpen, toggleModal } = useModal();
 	const modalRef = React.createRef<HTMLDivElement>(); // Create a ref for the modal
 
-	if (!isOpen) return null; // Do not render the modal if it's not open
 
 	return (
-		<AnimatePresence><motion.div
+		<AnimatePresence>
+			{isOpen &&
+			<motion.div
 			aria-hidden={!isOpen}
 			className="overflow-auto backdrop-blur-sm fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full max-h-full bg-black bg-opacity-50"
 			initial={{ opacity: 0 }}  // Initial state (hidden)
 			animate={{ opacity: 1 }}  // Final state (fully visible)
+			exit={{ opacity: 0 }}     // Exit state (hidden)
+			transition={{ duration: .4  }}  // Duration for the transition
+			//onClick={toggleModal}  // Close the modal when clicking on the overlay
 		>
 			{/* Add animation:
 				Overlay fade-in/fade-out or blur transition
 			*/}
 
-			<AnimatePresence>
 			<motion.div
 			ref={modalRef}
 			className="relative flex flex-col px-2 w-5/6 md:w-1/2 lg:w-1/3 max-w-lg sm:max-w-full max-h-full overflow-auto rounded-lg shadow bg-background"
-			initial={{ opacity: 0, scale: 0.1 }}  // Initial state (scaled down and hidden)
+			initial={{ opacity: 0, scale: 1 }}  // Initial state (scaled down and hidden)
 			animate={{ opacity: 1, scale: 1 }}    // Final state (normal size and fully visible)
-			exit={{ opacity: 0, scale: 0.1 }}     // Exit state (scaled down and hidden)
-			transition={{ duration: 0.3 }}        // Duration for the transition
+			exit={{ opacity: 0.2, scale: 1 }}     // Exit state (scaled down and hidden)
+			transition={{ duration: .3,
+			}}        // Duration for the transition
 			>
 				{/* Add animation:
 					Modal box entrance (e.g., slide-in, scale-up, fade-in)
@@ -96,8 +100,7 @@ const Modal: React.FC<ModalProps> = ({
 				*/}	
 
 			</motion.div>
-			</AnimatePresence>
-		</motion.div>
+		</motion.div>}
 		</AnimatePresence>
 	);
 };
