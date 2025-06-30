@@ -77,7 +77,7 @@ const Modal: React.FC<ModalProps> = ({
 			
 				{/* Modal Header */}
 				<motion.div
-					initial={{ opacity: 0, y: -50 }}
+					initial={{ opacity: 0, y: 0 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: .4 }}
 					className="md:flex text-center md:text-left items-center justify-between pt-3 md:p-3">
@@ -87,7 +87,7 @@ const Modal: React.FC<ModalProps> = ({
 				</motion.div>
 				{/* Modal Content */}
 				<motion.div
-					initial={{ opacity: 0, y: -50 }}
+					initial={{ opacity: 0, y: 0 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.4 }}
 					className='flex-grow px-3 pt-3 md:pt-0 pb-3 space-y-4 text-text'>
