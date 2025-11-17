@@ -21,7 +21,6 @@ const App: React.FC = () => {
 		- fade in animation on initial render
 		*/}
 		
-		{/* Background canvas */}
 		<div className=" top-0 left-0 w-full h-full fixed">
 			<BackgroundCanvas />
 		</div>

@@ -47,9 +47,10 @@ const Modal: React.FC<ModalProps> = ({
 
 	return (
 		<AnimatePresence>
-			{ /* Modal Overlay/backdrop 
-			 Only render if isOpen is true
-			 Animates opacity for fade in/out effect of the blurred modal backdrop 
+			{ /*
+			Modal Overlay/backdrop 
+			Only render if isOpen is true
+			Animates opacity for fade in/out effect of the blurred modal backdrop 
 			*/}
 			{isOpen &&
 			<motion.div
@@ -60,7 +61,8 @@ const Modal: React.FC<ModalProps> = ({
 			exit={{ opacity: 0 }}     // Exit state (hidden)
 			transition={{ duration: .4  }}  // Duration for the transition
 		>
-			{ /* Modal Container
+			{ /*
+			Modal Container
 			Animations for scaling and opacity when modal opens/closes
 			*/ }
 			<motion.div
@@ -71,8 +73,10 @@ const Modal: React.FC<ModalProps> = ({
 			exit={{ opacity: 0.2, scale: .5 }}     // Exit state (scaled down and hidden)
 			transition={{ duration: .2 }}        // Duration for the transition
 			>
-				{/* Modal Header
-				subtle fadein animation for the modal header*/}
+				{/* 
+				Modal Header
+				subtle fadein animation for the modal header
+				*/}
 				<motion.div
 					initial={{ opacity: 0, y: 0 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -82,7 +86,8 @@ const Modal: React.FC<ModalProps> = ({
 					{/* Close button */}
 					{hasCloseButton ? (<CloseModalButton onClick={toggleModal}/>) : (<></>)}
 				</motion.div>
-				{/* Modal Content + animation 
+				{/*
+				Modal Content + animation 
 				subtle fade in animation for the modal content
 				*/}
 				<motion.div
