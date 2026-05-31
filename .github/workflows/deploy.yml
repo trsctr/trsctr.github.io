@@ -1,43 +1,55 @@
-name: Deploy Vite App to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Trigger the workflow when changes are pushed to the main branch
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use an Ubuntu environment
-
+    runs-on: ubuntu-latest
     steps:
-      # 1. Check out the repository code
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
 
-      # 2. Set up Node.js with the specified version
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
-          node-version: '20.x'  # Set Node.js version to match your local environment (v20.x)
+          node-version: '20.x'
 
-      # 3. Install dependencies using npm
       - name: Install dependencies
         run: npm install
 
-      # 4. Add secrets as environment variables
       - name: Set environment variables
         run: |
           echo "VITE_REACT_APP_EMAILJS_SERVICE_ID=${{ secrets.VITE_REACT_APP_EMAILJS_SERVICE_ID }}" >> $GITHUB_ENV
           echo "VITE_REACT_APP_EMAILJS_PUBLIC_KEY=${{ secrets.VITE_REACT_APP_EMAILJS_PUBLIC_KEY }}" >> $GITHUB_ENV
           echo "VITE_REACT_APP_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_REACT_APP_EMAILJS_TEMPLATE_ID }}" >> $GITHUB_ENV
 
-      # 5. Build the Vite project
-      - name: Build Vite project
+      - name: Build
         run: npm run build
 
-      # 6. Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
         with:
-          publish_dir: './dist'  # Path to the built files
-          github_token: ${{ secrets.GH_IO_PAT }}  # Use your stored PAT for authentication
+          path: './dist'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
