@@ -25,7 +25,7 @@ const MeshCanvas: React.FC = () => {
 			<ambientLight intensity={0.5} />
 			<directionalLight position={[5, 5, 5]} intensity={1} />
 			<MorphingMesh />
-    	</Canvas>
+		</Canvas>
 	);
 };
 

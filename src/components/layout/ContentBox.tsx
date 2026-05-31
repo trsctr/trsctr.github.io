@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 
 /**
  * ContentBoxProps
@@ -23,13 +24,13 @@ interface ContentBoxProps {
  */
 const ContentBox: React.FC<ContentBoxProps> = ({ children, containerClassName, contentClassName }) => {
     return (
-        <div className={containerClassName}>
+        <motion.div layout initial={{opacity:0}} animate={{ opacity:1}} transition={{duration: 1}} className={containerClassName}>
             <section className={contentClassName}>
                 <div className="w-full flex-col">
                     {children}
                 </div>
             </section>
-        </div>
+        </motion.div>
     );
 };
 
